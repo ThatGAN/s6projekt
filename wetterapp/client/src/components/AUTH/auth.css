@@ -1,0 +1,22 @@
+.underline{
+    border-bottom: 0px;
+}
+
+input {
+    border-bottom: 0px !important; 
+   padding-left: 4px;
+}
+
+input:focus {
+    border-bottom: 0px !important; 
+    box-shadow: none !important;
+    padding-left: 4px;
+}
+
+input:active {
+    border-bottom: 0px !important; 
+}
+
+.backButton{
+    margin-right: 5px;
+}
