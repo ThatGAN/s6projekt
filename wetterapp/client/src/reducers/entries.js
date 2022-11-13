@@ -1,10 +1,10 @@
-import { FETCH_ALL } from "../constants/actionsTypes.js";
+// import { FETCH_ALL } from "../constants/actionsTypes.js";
 
-export default (entries: [], action) => {
+export default (entries = [], action) => {
   switch (action.type) {
     case "FETCH_ALL":
-      return action.payload.data;
+      return action.payload;
     default:
-      break;
+      return entries;
   }
 };
