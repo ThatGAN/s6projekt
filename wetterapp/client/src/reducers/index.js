@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import recipes from "./recipes";
+import entries from "./entries";
 import auth from "./auth";
 
 export default combineReducers({
-  recipes,
+  entries,
   auth,
 });

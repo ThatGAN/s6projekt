@@ -65,7 +65,7 @@ const SignUp = () => {
       dispatch({ type: AUTH, data: { result, token } });
 
       navigate("/");
-      location.reload();
+      //location.reload();
     } catch (error) {
       console.log(error);
     }
