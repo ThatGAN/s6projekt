@@ -1,16 +1,18 @@
 import PersistentDrawerLeft from "./components/header";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import TempChart from "./components/Charts/tempChart.js";
-
-import { getEntries } from "./actions/entries";
+import { ChartsCombine } from "./components/Charts/chartsCombine.js";
 
 function App() {
+  useEffect(() => {
+    console.log("test");
+  }, []);
+  // const entries = useSelector((state) => state.entries);
   return (
     <div>
       <PersistentDrawerLeft></PersistentDrawerLeft>
 
-      <TempChart></TempChart>
+      <ChartsCombine></ChartsCombine>
     </div>
   );
 }

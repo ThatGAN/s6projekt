@@ -7,13 +7,15 @@ import {
   Category,
   DataLabel,
   Zoom,
+  ScrollBar,
 } from "@syncfusion/ej2-react-charts";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+// import TempChart from "./components/Charts/tempChart.js";
 
 import { fetchEntries } from "./entrySlice.js";
 
-export const TempChart = () => {
+export const HumidityChart = () => {
   let entries = useSelector((state) => state.entry);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,6 +27,8 @@ export const TempChart = () => {
 
   let chartData = entries.entries;
 
+  let margin = { left: 40, right: 40 };
+
   return (
     <div>
       {entries.loading && <div>loading...</div>}
@@ -33,18 +37,26 @@ export const TempChart = () => {
       ) : null}
       {!entries.loading && entries.entries ? (
         <ChartComponent
-          title="Temperatur"
+          title="Luftfeuchtigkeit"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
-          primaryYAxis={{ title: "Temperatur", minimum: 0 }}
-          zoomSettings={{ enableSelectionZooming: true }}
+          primaryYAxis={{ title: "Luftfeuchtigkeit in %", minimum: 0 }}
+          zoomSettings={{
+            enableSelectionZooming: true,
+            enablePan: false,
+            enableScrollbar: true,
+            toolbarItems: ["ZoomIn", "ZoomOut", "Reset", "Pan"],
+          }}
+          margin={margin}
         >
-          <Inject services={[LineSeries, Category, DataLabel, Zoom]}></Inject>
+          <Inject
+            services={[LineSeries, Category, DataLabel, Zoom, ScrollBar]}
+          ></Inject>
           <SeriesCollectionDirective>
             <SeriesDirective
               type="Line"
               dataSource={chartData}
               xName="createdAt"
-              yName="temp"
+              yName="humidity"
               marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>

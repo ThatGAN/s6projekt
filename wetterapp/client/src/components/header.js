@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -18,6 +17,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import decode from "jwt-decode";
+import { Button } from "@material-ui/core";
+import * as actionType from "../constants/actionTypes";
+import useStyles from "./styles";
+
+import "./header.css";
 
 const drawerWidth = 240;
 
@@ -39,6 +48,14 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
+
+/*
+  1. neue Collection Stations
+  2. Collection "station1" zu StationEntries
+  3. Stations brauchen einen Namen und eine Location
+  4. user Schema braucht ein weiteres Array für die Stations auf welche der User Zugriff
+  4. Station Schema braucht ein weiteres String StationID, welcher die ID der Station beinhaltet
+*/
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -67,8 +84,33 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  const logout = () => {
+    dispatch({ type: actionType.LOGOUT });
+
+    navigate("/");
+
+    setUser(null);
+  };
+
+  useEffect(() => {
+    const token = user?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,9 +134,33 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
+          <Typography variant="h6" noWrap component="div"></Typography>
+          <div className="signIn right">
+            {user?.result ? (
+              <div className={classes.profile}>
+                <Button
+                  variant="contained"
+                  style={{ marginLeft: "auto" }}
+                  className={classes.logout}
+                  color="secondary"
+                  onClick={logout}
+                >
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Button
+                className={classes.logout}
+                style={{ float: "right", marginLeft: "auto" }}
+                component={Link}
+                to="/auth"
+                variant="contained"
+                color="primary"
+              >
+                Sign In
+              </Button>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -148,8 +214,8 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>Hier kommt mal ein Feature hin</Typography>
-        <Typography paragraph>Und hier eine Beschreibung</Typography>
+        {/* <Typography paragraph>Hier kommt mal ein Feature hin</Typography>
+        <Typography paragraph>Und hier eine Beschreibung</Typography> */}
       </Main>
     </Box>
   );
