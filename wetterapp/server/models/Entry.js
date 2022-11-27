@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const station1Schema = mongoose.Schema({
+const stationEntriesSchema = mongoose.Schema({
   id: { type: String },
   temp: { type: Number },
   humidity: { type: Number },
@@ -10,4 +10,8 @@ const station1Schema = mongoose.Schema({
   createdAt: { type: String },
 });
 
-module.exports = mongoose.model("Station1", station1Schema, "station1");
+module.exports = mongoose.model(
+  "stationEntries",
+  stationEntriesSchema,
+  "stationEntries"
+);

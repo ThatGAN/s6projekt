@@ -51,7 +51,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 
 /*
   1. neue Collection Stations
-  2. Collection "station1" zu StationEntries
+  2. Collection "stationEntries" zu StationEntries
   3. Stations brauchen einen Namen und eine Location
   4. user Schema braucht ein weiteres Array für die Stations auf welche der User Zugriff
   4. Station Schema braucht ein weiteres String StationID, welcher die ID der Station beinhaltet

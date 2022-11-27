@@ -1,16 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModal = require("../models/user.js");
-const Station1 = require("../models/entry.js");
+const stationEntries = require("../models/entry.js");
 
 const all = async (req, res) => {
   try {
     console.log("test");
-    const total = await Station1.countDocuments({});
+    const total = await stationEntries.countDocuments({});
     console.log("count: ", total);
-    // const entries = await Station1.find();
+    // const entries = await stationEntries.find();
 
-    entry = Station1.find({}, (err, docs) => {
+    entry = stationEntries.find({}, (err, docs) => {
       if (err) {
         console.log("error");
         res.send({ msg: "no Config Item found(undefined)" });
