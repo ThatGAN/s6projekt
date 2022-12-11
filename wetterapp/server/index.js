@@ -5,6 +5,7 @@ const cors = require("cors");
 const connection = require("./db");
 const userRouter = require("./routes/user.js");
 const entryRouter = require("./routes/entry.js");
+const stationCollectionRouter = require("./routes/stationCollection.js");
 
 require("dotenv").config();
 
@@ -25,6 +26,7 @@ connection();
 //routes
 app.use("/user", userRouter);
 app.use("/entry", entryRouter);
+app.use("/stationCollection", stationCollectionRouter);
 
 const port = process.env.PORT || 5000;
 

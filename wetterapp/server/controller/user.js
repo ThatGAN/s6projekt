@@ -42,6 +42,7 @@ const signup = async (req, res) => {
       email,
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
+      stationIds: [],
     });
 
     const token = jwt.sign({ email: result.email, id: result._id }, secret, {
@@ -56,7 +57,37 @@ const signup = async (req, res) => {
   }
 };
 
+const addExistingStation = async (req, res) => {
+  // const token = req.headers.authorization.split(" ")[1];
+
+  /* 
+    1. Station Ids dynamisch erweitern und nicht jedes mal einfach das array überschreiben
+    2. Prüfen ob Station Id Valid ist, dazu einfach Station.find > 0 methode verwenden
+  */
+
+  console.log("test!", req.body);
+  const token = req.body.token;
+
+  decodedData = jwt.verify(token, secret);
+
+  const userId = decodedData.id;
+  const stationId = req.body.stationId;
+
+  console.log("stationId: ", stationId);
+
+  const filter = { _id: userId };
+  const update = { stationIds: [stationId] };
+
+  let doc = await UserModal.findOneAndUpdate(filter, update);
+
+  doc = await UserModal.findOne(filter);
+  console.log("updated: ", doc.stationIds);
+
+  console.log("dec: ", decodedData);
+};
+
 module.exports = {
   signin,
   signup,
+  addExistingStation,
 };

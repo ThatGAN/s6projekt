@@ -25,6 +25,8 @@ import decode from "jwt-decode";
 import { Button } from "@material-ui/core";
 import * as actionType from "../constants/actionTypes";
 import useStyles from "./styles";
+import { AddExistingStationDialog } from "./stations/addExistingStationDialog";
+import { AddNewStationDialog } from "./stations/addNewStationDialog";
 
 import "./header.css";
 
@@ -86,11 +88,14 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openAddExistingStation, setOpenAddExistingStation] =
+    React.useState(false);
+  const [openAddNewStation, setOpenaddNewStation] = React.useState(false);
 
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
@@ -110,7 +115,23 @@ export default function PersistentDrawerLeft() {
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+  }, []);
+
+  const handleAddExistingStationOpen = () => {
+    setOpenAddExistingStation(true);
+  };
+
+  const handleAddExistingStationClose = () => {
+    setOpenAddExistingStation(false);
+  };
+
+  const handleAddNewStationOpen = () => {
+    setOpenaddNewStation(true);
+  };
+
+  const handleAddNewStationClose = () => {
+    setOpenaddNewStation(false);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,6 +139,10 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const addExistingStation = () => {
+    console.log("add");
   };
 
   return (
@@ -187,14 +212,28 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Add new Station", "Add existing Station"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                onClick={
+                  index % 1 === 0 && index !== 0
+                    ? handleAddExistingStationOpen
+                    : handleAddNewStationOpen
+                }
+              >
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
+              <AddExistingStationDialog
+                open={openAddExistingStation}
+                onClose={handleAddExistingStationClose}
+              />
+              <AddNewStationDialog
+                open={openAddNewStation}
+                onClose={handleAddNewStationClose}
+              />
             </ListItem>
           ))}
         </List>
@@ -214,8 +253,6 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {/* <Typography paragraph>Hier kommt mal ein Feature hin</Typography>
-        <Typography paragraph>Und hier eine Beschreibung</Typography> */}
       </Main>
     </Box>
   );

@@ -19,7 +19,6 @@ export const HumidityChart = () => {
   let entries = useSelector((state) => state.entry);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("dp");
     dispatch(fetchEntries());
   }, []);
 
@@ -46,7 +45,7 @@ export const HumidityChart = () => {
             enableScrollbar: true,
             toolbarItems: ["ZoomIn", "ZoomOut", "Reset", "Pan"],
           }}
-          margin={margin}
+          // margin={margin}
         >
           <Inject
             services={[LineSeries, Category, DataLabel, Zoom, ScrollBar]}

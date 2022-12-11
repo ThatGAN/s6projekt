@@ -17,7 +17,6 @@ export const TempChart = () => {
   let entries = useSelector((state) => state.entry);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("dp");
     dispatch(fetchEntries());
   }, []);
 
