@@ -1,5 +1,8 @@
 import { TempChart } from "./tempChart.js";
 import { HumidityChart } from "./humidityChart.js";
+import { LightsChart } from "./lightsChart.js";
+import { SoundChart } from "./soundChart.js";
+import { PressureChart } from "./pressureChart.js";
 import { Grid, Item } from "@mui/material";
 import Box from "@mui/material/Box";
 import "./chartsCombine.css";
@@ -16,7 +19,6 @@ export const ChartsCombine = () => {
     <div className="wrapper">
       <div className="date-picker-wrapper">
         <div className="date-picker">
-          test
           {/* <MobileDatePicker
             label="Date mobile"
             inputFormat="MM/DD/YYYY"
@@ -35,6 +37,22 @@ export const ChartsCombine = () => {
           <Grid item xs>
             <HumidityChart></HumidityChart>
           </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs>
+            <LightsChart></LightsChart>
+          </Grid>
+
+          <Grid item xs>
+            <SoundChart></SoundChart>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs>
+            <PressureChart></PressureChart>
+          </Grid>
+
+          <Grid item xs></Grid>
         </Grid>
       </Box>
     </div>

@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { fetchEntries } from "./entrySlice.js";
 
-export const HumidityChart = () => {
+export const PressureChart = () => {
   let entries = useSelector((state) => state.entry);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -36,9 +36,9 @@ export const HumidityChart = () => {
       ) : null}
       {!entries.loading && entries.entries ? (
         <ChartComponent
-          title="Luftfeuchtigkeit"
+          title="Luftdruck"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
-          primaryYAxis={{ title: "Luftfeuchtigkeit in %", minimum: 0 }}
+          primaryYAxis={{ title: "Luftdruck in pa", minimum: 0 }}
           zoomSettings={{
             enableSelectionZooming: true,
             enablePan: false,
@@ -55,7 +55,7 @@ export const HumidityChart = () => {
               type="Line"
               dataSource={chartData}
               xName="createdAt"
-              yName="humidity"
+              yName="pressure"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>

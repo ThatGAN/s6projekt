@@ -44,7 +44,7 @@ export const TempChart = () => {
               dataSource={chartData}
               xName="createdAt"
               yName="temp"
-              marker={{ dataLabel: { visible: true }, visible: false }}
+              // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>
         </ChartComponent>

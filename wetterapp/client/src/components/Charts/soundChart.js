@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { fetchEntries } from "./entrySlice.js";
 
-export const HumidityChart = () => {
+export const SoundChart = () => {
   let entries = useSelector((state) => state.entry);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,7 +26,7 @@ export const HumidityChart = () => {
 
   let chartData = entries.entries;
 
-  let margin = { left: 40, right: 40 };
+  // let margin = { left: 40, right: 40 };
 
   return (
     <div>
@@ -36,9 +36,9 @@ export const HumidityChart = () => {
       ) : null}
       {!entries.loading && entries.entries ? (
         <ChartComponent
-          title="Luftfeuchtigkeit"
+          title="Lautstärke"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
-          primaryYAxis={{ title: "Luftfeuchtigkeit in %", minimum: 0 }}
+          primaryYAxis={{ title: "Lautstärke 0-100", minimum: 0 }}
           zoomSettings={{
             enableSelectionZooming: true,
             enablePan: false,
