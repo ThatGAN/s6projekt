@@ -8,29 +8,17 @@ import {
   DataLabel,
   Zoom,
 } from "@syncfusion/ej2-react-charts";
+
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
-import { fetchEntries } from "./entrySlice.js";
-
-export const TempChart = () => {
-  let entries = useSelector((state) => state.entry);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchEntries());
-  }, []);
-
-  console.log("entries: ", entries);
-
-  let chartData = entries.entries;
-
+export const TempChart = (props) => {
   return (
     <div>
-      {entries.loading && <div>loading...</div>}
-      {!entries.loading && entries.error ? (
-        <div>Error: {entries.error}</div>
+      {props.dataFromParent.loading && <div>loading...</div>}
+      {!props.dataFromParent.loading && props.dataFromParent.error ? (
+        <div>Error: {props.dataFromParent.error}</div>
       ) : null}
-      {!entries.loading && entries.entries ? (
+      {!props.dataFromParent.loading && props.dataFromParent.entries ? (
         <ChartComponent
           title="Temperatur"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
@@ -41,7 +29,7 @@ export const TempChart = () => {
           <SeriesCollectionDirective>
             <SeriesDirective
               type="Line"
-              dataSource={chartData}
+              dataSource={props.dataFromParent.entries}
               xName="createdAt"
               yName="temp"
               // marker={{ dataLabel: { visible: true }, visible: false }}

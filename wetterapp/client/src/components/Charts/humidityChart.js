@@ -15,26 +15,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { fetchEntries } from "./entrySlice.js";
 
-export const HumidityChart = () => {
-  let entries = useSelector((state) => state.entry);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchEntries());
-  }, []);
-
-  console.log("entries: ", entries);
-
-  let chartData = entries.entries;
-
-  let margin = { left: 40, right: 40 };
-
+export const HumidityChart = (props) => {
   return (
     <div>
-      {entries.loading && <div>loading...</div>}
-      {!entries.loading && entries.error ? (
-        <div>Error: {entries.error}</div>
+      {props.dataFromParent.loading && <div>loading...</div>}
+      {!props.dataFromParent.loading && props.dataFromParent.error ? (
+        <div>Error: {props.dataFromParent.error}</div>
       ) : null}
-      {!entries.loading && entries.entries ? (
+      {!props.dataFromParent.loading && props.dataFromParent.entries ? (
         <ChartComponent
           title="Luftfeuchtigkeit"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
@@ -53,7 +41,7 @@ export const HumidityChart = () => {
           <SeriesCollectionDirective>
             <SeriesDirective
               type="Line"
-              dataSource={chartData}
+              dataSource={props.dataFromParent.entries}
               xName="createdAt"
               yName="humidity"
               // marker={{ dataLabel: { visible: true }, visible: false }}

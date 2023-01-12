@@ -6,6 +6,8 @@ const secret = "test";
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
+  console.log("YOYO");
+  console.log("pw: ", password);
 
   try {
     const oldUser = await UserModal.findOne({ email });
@@ -13,7 +15,9 @@ const signin = async (req, res) => {
     if (!oldUser)
       return res.status(404).json({ message: "User doesn't exist" });
 
-    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+    console.log("pw here: ", oldUser.password);
+
+    const isPasswordCorrect = bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid credentials" });
@@ -22,7 +26,17 @@ const signin = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ result: oldUser, token });
+    console.log("test");
+
+    const retUser = {
+      name: oldUser.name,
+      email: oldUser.email,
+      stationIds: oldUser.stationIds,
+    };
+
+    console.log("NEW USER: ", retUser);
+
+    res.status(200).json({ result: retUser, token });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }

@@ -22,8 +22,6 @@ export const PressureChart = () => {
     dispatch(fetchEntries());
   }, []);
 
-  console.log("entries: ", entries);
-
   let chartData = entries.entries;
 
   let margin = { left: 40, right: 40 };
@@ -42,7 +40,7 @@ export const PressureChart = () => {
           zoomSettings={{
             enableSelectionZooming: true,
             enablePan: false,
-            enableScrollbar: true,
+            //enableScrollbar: true,
             toolbarItems: ["ZoomIn", "ZoomOut", "Reset", "Pan"],
           }}
           // margin={margin}

@@ -12,6 +12,7 @@ export const loginUser = createAsyncThunk(
   "/user/signin",
   (formdata, navigate) => {
     console.log("tes123t");
+
     return axios
       .post("http://localhost:5000/user/signin", formdata)
       .then((response) => {

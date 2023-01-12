@@ -8,6 +8,7 @@ const stationEntriesSchema = mongoose.Schema({
   sound: { type: Number },
   pressure: { type: Number },
   createdAt: { type: String },
+  station_id: { type: String },
 });
 
 module.exports = mongoose.model(

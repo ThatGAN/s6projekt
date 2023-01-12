@@ -58,23 +58,6 @@ const SignUp = () => {
     }
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
-
-    try {
-      dispatch({ type: AUTH, data: { result, token } });
-
-      navigate("/");
-      //location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const googleError = () =>
-    alert("Google Sign In was unsuccessful. Try again later");
-
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
