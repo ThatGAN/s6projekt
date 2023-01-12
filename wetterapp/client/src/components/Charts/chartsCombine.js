@@ -18,7 +18,11 @@ export const ChartsCombine = () => {
   let entries = useSelector((state) => state.entry);
   const [tempData, setTempData] = useState({});
   const [humidityData, setHumidityData] = useState({});
-  // const [tempData, setTempData] = useState({});
+  const [lightsData, setLightsData] = useState({});
+  const [soundData, setSoundData] = useState({});
+  const [pressureData, setPressureData] = useState({});
+  const [groundHumidityData, setGroundHumidityData] = useState({});
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -40,14 +44,43 @@ export const ChartsCombine = () => {
         };
         return obj;
       });
-      // let formattedEntriesLights = entries.entries.map((val) => {
-      //   let obj = {
-      //     _id: val._id,
-      //     temp: val.temp,
-      //     createdAt: val.createdAt,
-      //   };
-      //   return obj;
-      // });
+
+      let formattedEntriesLights = entries.entries.map((val) => {
+        let obj = {
+          _id: val._id,
+          light: val.light,
+          createdAt: val.createdAt,
+        };
+        return obj;
+      });
+
+      let formattedEntriesSound = entries.entries.map((val) => {
+        let obj = {
+          _id: val._id,
+          sound: val.sound,
+          createdAt: val.createdAt,
+        };
+        return obj;
+      });
+
+      let formattedEntriesPressure = entries.entries.map((val) => {
+        let obj = {
+          _id: val._id,
+          pressure: val.pressure,
+          createdAt: val.createdAt,
+        };
+        return obj;
+      });
+
+      let formattedEntriesGroundHumidity = entries.entries.map((val) => {
+        let obj = {
+          _id: val._id,
+          groundHumidity: val.groundHumidity,
+          createdAt: val.createdAt,
+        };
+        return obj;
+      });
+
       let td = {
         loading: entries.loading,
         error: entries.error,
@@ -58,8 +91,32 @@ export const ChartsCombine = () => {
         error: entries.error,
         entries: formattedEntriesHumidity,
       };
+      let ld  = {
+        loading: entries.loading,
+        error: entries.error,
+        entries: formattedEntriesLights,
+      };
+      let sd = {
+        loading: entries.loading,
+        error: entries.error,
+        entries: formattedEntriesSound,
+      };
+      let pd = {
+        loading: entries.loading,
+        error: entries.error,
+        entries: formattedEntriesPressure,
+      };
+      let ghd = {
+        loading: entries.loading,
+        error: entries.error,
+        entries: formattedEntriesGroundHumidity,
+      };
       setTempData(td);
       setHumidityData(hd);
+      setLightsData(ld);
+      setSoundData(sd);
+      setPressureData(pd);
+      setGroundHumidityData(ghd);
     });
   }, []);
 
@@ -92,26 +149,26 @@ export const ChartsCombine = () => {
                 <TempChart dataFromParent={tempData}></TempChart>
               </Grid>
 
-              <Grid item xs>
+              {/* <Grid item xs>
                 <HumidityChart dataFromParent={humidityData}></HumidityChart>
-              </Grid>
+              </Grid> */}
             </Grid>
             {/* <Grid container spacing={3}>
-          <Grid item xs>
-            <LightsChart></LightsChart>
-          </Grid>
+              <Grid item xs>
+                <LightsChart dataFromParent={lightsData}></LightsChart>
+              </Grid>
 
-          <Grid item xs>
-            <SoundChart></SoundChart>
-          </Grid>
-        </Grid>
+              <Grid item xs>
+               <SoundChart dataFromParent={soundData}></SoundChart>
+              </Grid> */}
+            {/* </Grid> */}
         <Grid container spacing={3}>
-          <Grid item xs>
-            <PressureChart></PressureChart>
-          </Grid>
+          {/* <Grid item xs>
+            <PressureChart dataFromParent={pressureData}></PressureChart>
+          </Grid> */}
 
           <Grid item xs></Grid>
-        </Grid> */}
+        </Grid>
           </Box>
         </div>
       ) : null}

@@ -34,6 +34,8 @@ const allById = async (req, res) => {
   try {
     stationId = req.body.stationId;
     // const entries = await stationEntries.find();
+    const total = await stationEntries.countDocuments({});
+    console.log("count: ", total);
 
     entry = stationEntries.find(
       { station_id: { $in: stationId } },

@@ -15,24 +15,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { fetchEntries } from "./entrySlice.js";
 
-export const LightsChart = () => {
-  let entries = useSelector((state) => state.entry);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchEntries());
-  }, []);
-
-  let chartData = entries.entries;
-
-  let margin = { left: 40, right: 40 };
-
-  return (
+export const LightsChart = (props) => {
+   return (
     <div>
-      {entries.loading && <div>loading...</div>}
-      {!entries.loading && entries.error ? (
-        <div>Error: {entries.error}</div>
+      {props.dataFromParent.loading && <div>loading...</div>}
+      {!props.dataFromParent.loading && props.dataFromParent.error ? (
+        <div>Error: {props.dataFromParent.error}</div>
       ) : null}
-      {!entries.loading && entries.entries ? (
+      {!props.dataFromParent.loading && props.dataFromParent.entries ? (
         <ChartComponent
           title="Helligkeit"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
@@ -51,7 +41,7 @@ export const LightsChart = () => {
           <SeriesCollectionDirective>
             <SeriesDirective
               type="Line"
-              dataSource={chartData}
+              dataSource={props.dataFromParent.entries}
               xName="createdAt"
               yName="lights"
               // marker={{ dataLabel: { visible: true }, visible: false }}
