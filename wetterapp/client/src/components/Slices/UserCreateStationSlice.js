@@ -12,9 +12,7 @@ export const addNewStation = createAsyncThunk(
   (formdata) => {
     return axios
       .post("http://localhost:5000/stationCollection/addNewStation", formdata)
-      .then((response) => {
-        console.log("got: ", response.data);
-      });
+      .then((response) => {});
   }
 );
 const userAddNewStationSlice = createSlice({

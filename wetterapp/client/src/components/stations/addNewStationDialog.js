@@ -33,7 +33,6 @@ export function AddNewStationDialog(props: AddNewSationDialogProps) {
   };
 
   const addNewStationLocal = () => {
-    console.log("form: ", form);
     dispatch(addNewStation(form));
   };
 

@@ -11,15 +11,11 @@ const initialState = {
 export const loginUser = createAsyncThunk(
   "/user/signin",
   (formdata, navigate) => {
-    console.log("tes123t");
-
     return axios
       .post("http://localhost:5000/user/signin", formdata)
       .then((response) => {
-        console.log("got: ", response.data);
         localStorage.setItem("profile", JSON.stringify({ ...response?.data }));
         // navigate("/");
-        console.log("redirect");
       });
   }
 );
@@ -27,8 +23,6 @@ export const loginUser = createAsyncThunk(
 export const signupUser = createAsyncThunk(
   "/user/singup",
   (formdata, navigate) => {
-    console.log("test1234");
-
     return axios
       .post("http://localhost:5000/user/signup", formdata)
       .then((response) => {

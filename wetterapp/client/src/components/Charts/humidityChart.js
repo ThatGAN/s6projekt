@@ -16,6 +16,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchEntries } from "./entrySlice.js";
 
 export const HumidityChart = (props) => {
+  if (props.dataFromParent.entries?.length) {
+    props.dataFromParent.entries.map((entry) => {
+      const tempCreatedAt = new Date(entry.createdAt);
+
+      var formattedCreatedAt =
+        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+
+      entry.formattedCreatedAt = formattedCreatedAt;
+    });
+  }
   return (
     <div>
       {props.dataFromParent.loading && <div>loading...</div>}
@@ -42,7 +52,7 @@ export const HumidityChart = (props) => {
             <SeriesDirective
               type="Line"
               dataSource={props.dataFromParent.entries}
-              xName="createdAt"
+              xName="formattedCreatedAt"
               yName="humidity"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>

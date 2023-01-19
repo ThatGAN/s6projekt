@@ -10,6 +10,11 @@ import "./chartsCombine.css";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import TextField from "@mui/material/TextField";
 
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRangePicker } from "react-date-range";
+import { addDays } from "date-fns";
+
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { fetchEntries } from "./entrySlice.js";
@@ -23,11 +28,32 @@ export const ChartsCombine = () => {
   const [pressureData, setPressureData] = useState({});
   const [groundHumidityData, setGroundHumidityData] = useState({});
 
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
+  const updateEntries = () => {
+    console.log("CALLED UPDATE!");
     dispatch(fetchEntries()).then((res) => {
-      let formattedEntries = entries.entries.map((val) => {
+      console.log("payload: ", res.payload);
+      var startDate = new Date(date[0].startDate);
+      // startDate.setDate(startDate.getDate() - 1);
+      var endDate = new Date(date[0].endDate);
+      console.log("start date: ", startDate);
+      console.log("end date: ", endDate);
+
+      res.payload = res.payload.filter((entry) => {
+        // console.log("entry: ", entry);
+        const entryDate = new Date(entry.createdAt);
+        if (entryDate > startDate && entryDate < endDate) return true;
+        else return false;
+      });
+
+      let formattedEntries = res.payload.map((val) => {
         let obj = {
           _id: val._id,
           temp: val.temp,
@@ -36,7 +62,7 @@ export const ChartsCombine = () => {
         return obj;
       });
 
-      let formattedEntriesHumidity = entries.entries.map((val) => {
+      let formattedEntriesHumidity = res.payload.map((val) => {
         let obj = {
           _id: val._id,
           humidity: val.humidity,
@@ -45,16 +71,16 @@ export const ChartsCombine = () => {
         return obj;
       });
 
-      let formattedEntriesLights = entries.entries.map((val) => {
+      let formattedEntriesLights = res.payload.map((val) => {
         let obj = {
           _id: val._id,
-          light: val.light,
+          lights: val.lights,
           createdAt: val.createdAt,
         };
         return obj;
       });
 
-      let formattedEntriesSound = entries.entries.map((val) => {
+      let formattedEntriesSound = res.payload.map((val) => {
         let obj = {
           _id: val._id,
           sound: val.sound,
@@ -63,7 +89,7 @@ export const ChartsCombine = () => {
         return obj;
       });
 
-      let formattedEntriesPressure = entries.entries.map((val) => {
+      let formattedEntriesPressure = res.payload.map((val) => {
         let obj = {
           _id: val._id,
           pressure: val.pressure,
@@ -72,7 +98,7 @@ export const ChartsCombine = () => {
         return obj;
       });
 
-      let formattedEntriesGroundHumidity = entries.entries.map((val) => {
+      let formattedEntriesGroundHumidity = res.payload.map((val) => {
         let obj = {
           _id: val._id,
           groundHumidity: val.groundHumidity,
@@ -91,7 +117,7 @@ export const ChartsCombine = () => {
         error: entries.error,
         entries: formattedEntriesHumidity,
       };
-      let ld  = {
+      let ld = {
         loading: entries.loading,
         error: entries.error,
         entries: formattedEntriesLights,
@@ -118,11 +144,23 @@ export const ChartsCombine = () => {
       setPressureData(pd);
       setGroundHumidityData(ghd);
     });
-  }, []);
+  };
 
-  console.log("entriesCombine:", entries);
-  console.log("temp:", tempData);
-  console.log("hum:", humidityData);
+  const updateEntriesOnDateChange = () => {
+    updateEntries();
+  };
+
+  /*
+    1. StartDate und EndDate vom Rangepicker ans Backend übergeben und dort nur die gefilterten Einträge zurückgeben
+    2. Sensordaten Preprocessing besser zusammenfassen
+    3. Date Umwandlung zentral anlegen
+  */
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    updateEntries();
+  }, []);
+  // console.log("hum:", humidityData);
 
   return (
     <div>
@@ -132,43 +170,45 @@ export const ChartsCombine = () => {
       ) : null}
       {!entries.loading && tempData ? (
         <div className="wrapper">
-          <div className="date-picker-wrapper">
-            <div className="date-picker">
-              {/* <MobileDatePicker
-            label="Date mobile"
-            inputFormat="MM/DD/YYYY"
-            value={dateval}
-            onChange={dateChange}
-            renderInput={(params) => <TextField {...params} />}
-          /> */}
-            </div>
-          </div>
+          <DateRangePicker
+            onChange={(item) => {
+              setDate([item.selection]);
+              console.log("STATE: ", date);
+              updateEntriesOnDateChange();
+            }}
+            showSelectionPreview={true}
+            moveRangeOnFirstSelection={false}
+            months={2}
+            ranges={date}
+            direction="horizontal"
+          />
+
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
               <Grid item xs>
                 <TempChart dataFromParent={tempData}></TempChart>
               </Grid>
 
-              {/* <Grid item xs>
+              <Grid item xs>
                 <HumidityChart dataFromParent={humidityData}></HumidityChart>
-              </Grid> */}
+              </Grid>
             </Grid>
-            {/* <Grid container spacing={3}>
+            <Grid container spacing={3}>
               <Grid item xs>
                 <LightsChart dataFromParent={lightsData}></LightsChart>
               </Grid>
 
               <Grid item xs>
-               <SoundChart dataFromParent={soundData}></SoundChart>
-              </Grid> */}
-            {/* </Grid> */}
-        <Grid container spacing={3}>
-          {/* <Grid item xs>
-            <PressureChart dataFromParent={pressureData}></PressureChart>
-          </Grid> */}
+                <SoundChart dataFromParent={soundData}></SoundChart>
+              </Grid>
+            </Grid>
+            <Grid container spacing={3}>
+              <Grid item xs>
+                <PressureChart dataFromParent={pressureData}></PressureChart>
+              </Grid>
 
-          <Grid item xs></Grid>
-        </Grid>
+              <Grid item xs></Grid>
+            </Grid>
           </Box>
         </div>
       ) : null}

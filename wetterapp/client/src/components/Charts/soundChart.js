@@ -16,7 +16,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchEntries } from "./entrySlice.js";
 
 export const SoundChart = (props) => {
-    return (
+  if (props.dataFromParent.entries?.length) {
+    props.dataFromParent.entries.map((entry) => {
+      const tempCreatedAt = new Date(entry.createdAt);
+
+      var formattedCreatedAt =
+        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+
+      entry.formattedCreatedAt = formattedCreatedAt;
+    });
+  }
+  return (
     <div>
       {props.dataFromParent.loading && <div>loading...</div>}
       {!props.dataFromParent.loading && props.dataFromParent.error ? (
@@ -42,8 +52,8 @@ export const SoundChart = (props) => {
             <SeriesDirective
               type="Line"
               dataSource={props.dataFromParent.entries}
-              xName="createdAt"
-              yName="humidity"
+              xName="formattedCreatedAt"
+              yName="sound"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>

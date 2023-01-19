@@ -142,7 +142,7 @@ const SignUp = () => {
             cookiePolicy="single_host_origin"
           /> */}
 
-          <Grid container justify="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item>
               <Button
                 justify="flex-start"

@@ -12,6 +12,21 @@ import {
 import React, { useEffect } from "react";
 
 export const TempChart = (props) => {
+  if (props.dataFromParent.entries?.length) {
+    props.dataFromParent.entries.map((entry) => {
+      const tempCreatedAt = new Date(entry.createdAt);
+
+      var formattedCreatedAt =
+        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+      // + " " +
+      // tempCreatedAt.getHours() +
+      // ":" +
+      // tempCreatedAt.getMinutes();
+
+      entry.formattedCreatedAt = formattedCreatedAt;
+    });
+  }
+
   return (
     <div>
       {props.dataFromParent.loading && <div>loading...</div>}
@@ -30,7 +45,7 @@ export const TempChart = (props) => {
             <SeriesDirective
               type="Line"
               dataSource={props.dataFromParent.entries}
-              xName="createdAt"
+              xName="formattedCreatedAt"
               yName="temp"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>

@@ -142,7 +142,7 @@ export default function PersistentDrawerLeft() {
   };
 
   const addExistingStation = () => {
-    console.log("add");
+    // console.log("add");
   };
 
   return (

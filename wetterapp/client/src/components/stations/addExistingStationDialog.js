@@ -33,10 +33,7 @@ export function AddExistingStationDialog(props: AddExistingStationDialogProps) {
   };
 
   const addStationById = () => {
-    console.log("test");
-    console.log("id: ", form.stationId);
     form.token = JSON.parse(localStorage.getItem("profile")).token;
-    console.log("form token: ", form.token);
     dispatch(addExistingStation(form));
   };
 

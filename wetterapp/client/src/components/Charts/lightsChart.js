@@ -16,7 +16,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchEntries } from "./entrySlice.js";
 
 export const LightsChart = (props) => {
-   return (
+  // var createdAtOrg = new Date(props.dataFromParent.entries[0].createdAt);
+
+  if (props.dataFromParent.entries?.length) {
+    props.dataFromParent.entries.map((entry) => {
+      const tempCreatedAt = new Date(entry.createdAt);
+
+      var formattedCreatedAt =
+        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+
+      entry.formattedCreatedAt = formattedCreatedAt;
+    });
+  }
+
+  // console.log("CreatedAt:", createdAtOrg);
+  // createdAtOrg = createdAtOrg.getDate() + "." + createdAt.getMonth();
+
+  // console.log("Split", createdAtOrg.toISOString().split("T")[1].split(".")[0]);
+
+  return (
     <div>
       {props.dataFromParent.loading && <div>loading...</div>}
       {!props.dataFromParent.loading && props.dataFromParent.error ? (
@@ -42,7 +60,7 @@ export const LightsChart = (props) => {
             <SeriesDirective
               type="Line"
               dataSource={props.dataFromParent.entries}
-              xName="createdAt"
+              xName="formattedCreatedAt"
               yName="lights"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>

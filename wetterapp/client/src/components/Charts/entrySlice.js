@@ -23,13 +23,10 @@ const profile = JSON.parse(localStorage.getItem("profile"));
 
 export const fetchEntries = createAsyncThunk("/entry/allById", () => {
   const stationIds = profile.result.stationIds;
-  console.log("ids: ", stationIds);
   var data = [];
   return axios
     .post("http://localhost:5000/entry/allById", { stationId: stationIds })
     .then((response) => {
-      console.log("got: ", response.data);
-
       return response.data;
     });
 });

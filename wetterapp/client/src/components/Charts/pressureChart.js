@@ -16,7 +16,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchEntries } from "./entrySlice.js";
 
 export const PressureChart = (props) => {
-   return (
+  if (props.dataFromParent.entries?.length) {
+    props.dataFromParent.entries.map((entry) => {
+      const tempCreatedAt = new Date(entry.createdAt);
+
+      var formattedCreatedAt =
+        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+
+      entry.formattedCreatedAt = formattedCreatedAt;
+    });
+  }
+  return (
     <div>
       {props.dataFromParent.loading && <div>loading...</div>}
       {!props.dataFromParent.loading && props.dataFromParent.error ? (
@@ -42,7 +52,7 @@ export const PressureChart = (props) => {
             <SeriesDirective
               type="Line"
               dataSource={props.dataFromParent.entries}
-              xName="createdAt"
+              xName="formattedCreatedAt"
               yName="pressure"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>

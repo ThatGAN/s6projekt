@@ -17,7 +17,6 @@ export const getEntries = (num) => async (dispatch) => {
     dlm.setDate(dn.getDate() - num);
 
     const { data } = await api.fetchEntries().then((val) => {
-      console.log(val);
       val.data.data = val.data.data.filter((d) => {
         // console.log("d ", d.createdAt);
         let da = new Date(d.createdAt);
@@ -26,7 +25,6 @@ export const getEntries = (num) => async (dispatch) => {
     });
 
     dispatch({ type: "FETCH_ALL", payload: data });
-    console.log(num);
   } catch (error) {
     console.log(error);
   }
