@@ -1,13 +1,12 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModal = require("../models/user.js");
+const stationCollection = require("../models/stationCollection.js");
 
 const secret = "test";
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log("YOYO");
-  console.log("pw: ", password);
 
   try {
     const oldUser = await UserModal.findOne({ email });
@@ -25,8 +24,6 @@ const signin = async (req, res) => {
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "1h",
     });
-
-    console.log("test");
 
     const retUser = {
       name: oldUser.name,
@@ -75,9 +72,9 @@ const addExistingStation = async (req, res) => {
   // const token = req.headers.authorization.split(" ")[1];
 
   /* 
-    1. Station Ids dynamisch erweitern und nicht jedes mal einfach das array überschreiben
     2. Prüfen ob Station Id Valid ist, dazu einfach Station.find > 0 methode verwenden
-  */
+    2.1 Crash bei nicht Id länge verhindern
+    */
 
   console.log("test!", req.body);
   const token = req.body.token;
@@ -89,15 +86,44 @@ const addExistingStation = async (req, res) => {
 
   console.log("stationId: ", stationId);
 
-  const filter = { _id: userId };
-  const update = { stationIds: [stationId] };
+  try {
+    const result = await stationCollection.findOne({ _id: stationId }).lean();
+    if (result) {
+      // const resultStations = await stationCollection
+      //   .findOne({ _id: stationID })
+      //   .lean();
+      // if (!resultStations) {
+      const filter = { _id: userId };
 
-  let doc = await UserModal.findOneAndUpdate(filter, update);
+      let userBefore = await UserModal.find(filter);
 
-  doc = await UserModal.findOne(filter);
-  console.log("updated: ", doc.stationIds);
+      const oldStationIds = userBefore[0].stationIds;
 
-  console.log("dec: ", decodedData);
+      const update = { stationIds: [...oldStationIds, stationId] };
+
+      console.log("already set stations: ", userBefore[0].stationIds);
+
+      let doc = await UserModal.findOneAndUpdate(filter, update);
+
+      doc = await UserModal.findOne(filter);
+      console.log("updated: ", doc.stationIds);
+
+      console.log("dec: ", decodedData);
+      return res.status(201);
+      // } else {
+      //   console.log("This station is already added to this account.");
+      //   return res
+      //     .status(400)
+      //     .json({ message: "This station is already added to this account." });
+    } else {
+      console.log("No existing station with this ID");
+      return res
+        .status(400)
+        .json({ message: "No station with this ID exists" });
+    }
+  } catch (error) {
+    return res.status(400).json({ message: "No station with this ID exists" });
+  }
 };
 
 module.exports = {

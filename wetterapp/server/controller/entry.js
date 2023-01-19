@@ -5,12 +5,11 @@ const stationEntries = require("../models/entry.js");
 
 const all = async (req, res) => {
   try {
-    console.log("teeeest");
     const total = await stationEntries.countDocuments({});
     console.log("count: ", total);
     // const entries = await stationEntries.find();
 
-    entry = stationEntries.find({}, (err, docs) => {
+    const entry = await stationEntries.find({}, (err, docs) => {
       if (err) {
         console.log("error");
         res.send({ msg: "no Config Item found(undefined)" });
@@ -34,8 +33,9 @@ const allById = async (req, res) => {
   try {
     stationId = req.body.stationId;
     // const entries = await stationEntries.find();
-    const total = await stationEntries.countDocuments({});
-    console.log("count: ", total);
+    // const total = await stationEntries.countDocuments({});
+    // console.log("count: ", total);
+    console.log("stat: ", stationId);
 
     entry = stationEntries.find(
       { station_id: { $in: stationId } },

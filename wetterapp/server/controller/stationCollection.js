@@ -2,7 +2,6 @@ const stationCollection = require("../models/stationCollection.js");
 
 const all = async (req, res) => {
   try {
-    console.log("test");
     const total = await stationCollection.countDocuments({});
     console.log("count: ", total);
     // const entries = await stationCollection.find();
