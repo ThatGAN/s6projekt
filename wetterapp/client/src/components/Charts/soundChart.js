@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import TempChart from "./components/Charts/tempChart.js";
 
-import { fetchEntries } from "./entrySlice.js";
+import { fetchEntries } from "../Slices/entrySlice.js";
 
 export const SoundChart = (props) => {
   if (props.dataFromParent.entries?.length) {

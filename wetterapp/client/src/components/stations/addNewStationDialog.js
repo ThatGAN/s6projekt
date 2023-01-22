@@ -6,19 +6,19 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addNewStation } from "../Slices/UserCreateStationSlice.js";
+import { addNewStation } from "../Slices/userCreateStationSlice.js";
 
-export interface AddNewSationDialogProps {
-  open: boolean;
-  onClose: (value: string) => void;
-}
+// export interface AddNewSationDialogProps {
+//   open: boolean;
+//   onClose: (value: string) => void;
+// }
 
 const initialState = {
   name: "",
   location: "",
 };
 
-export function AddNewStationDialog(props: AddNewSationDialogProps) {
+export function AddNewStationDialog(props) {
   const [form, setForm] = useState(initialState);
   const { onClose, selectedValue, open } = props;
   // const [stationId, setStationId] = useState("");
@@ -28,7 +28,7 @@ export function AddNewStationDialog(props: AddNewSationDialogProps) {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value: string) => {
+  const handleListItemClick = (value) => {
     onClose(value);
   };
 

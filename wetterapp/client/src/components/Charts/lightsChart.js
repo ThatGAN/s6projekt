@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import TempChart from "./components/Charts/tempChart.js";
 
-import { fetchEntries } from "./entrySlice.js";
+import { fetchEntries } from "../Slices/entrySlice.js";
 
 export const LightsChart = (props) => {
   // var createdAtOrg = new Date(props.dataFromParent.entries[0].createdAt);

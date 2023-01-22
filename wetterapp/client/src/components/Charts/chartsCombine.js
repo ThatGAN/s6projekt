@@ -17,7 +17,7 @@ import { addDays } from "date-fns";
 
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { fetchEntries } from "./entrySlice.js";
+import { fetchEntries } from "../Slices/entrySlice.js";
 
 export const ChartsCombine = () => {
   let entries = useSelector((state) => state.entry);

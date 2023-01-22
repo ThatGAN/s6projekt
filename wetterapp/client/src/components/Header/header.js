@@ -23,10 +23,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import decode from "jwt-decode";
 import { Button } from "@material-ui/core";
-import * as actionType from "../constants/actionTypes";
+// import * as actionType from "../../constants/actionTypes";
 import useStyles from "./styles";
-import { AddExistingStationDialog } from "./stations/addExistingStationDialog";
-import { AddNewStationDialog } from "./stations/addNewStationDialog";
+import { AddExistingStationDialog } from "../stations/addExistingStationDialog";
+import { AddNewStationDialog } from "../stations/addNewStationDialog";
 
 import "./header.css";
 
@@ -52,11 +52,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 /*
-  1. neue Collection Stations
-  2. Collection "stationEntries" zu StationEntries
-  3. Stations brauchen einen Namen und eine Location
-  4. user Schema braucht ein weiteres Array für die Stations auf welche der User Zugriff
-  4. Station Schema braucht ein weiteres String StationID, welcher die ID der Station beinhaltet
+  Continue refactoring at constatnts folder in Frontend
 */
 
 const AppBar = styled(MuiAppBar, {
@@ -98,7 +94,7 @@ export default function PersistentDrawerLeft() {
   const [openAddNewStation, setOpenaddNewStation] = React.useState(false);
 
   const logout = () => {
-    dispatch({ type: actionType.LOGOUT });
+    // dispatch({ type: actionType.LOGOUT });
 
     navigate("/");
 

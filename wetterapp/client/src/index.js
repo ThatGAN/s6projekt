@@ -12,10 +12,9 @@ import {
   Navigate,
 } from "react-router-dom";
 import { registerLicense } from "@syncfusion/ej2-base";
-import Auth from "./components/AUTH/Auth.js";
+import Auth from "./components/Auth/auth.js";
 import store from "./store/store";
 
-import reducers from "./reducers";
 import { createRoot } from "react-dom/client";
 
 const Routs = () => {
@@ -29,9 +28,9 @@ const Routs = () => {
   );
 };
 const root = createRoot(document.getElementById("root"));
-registerLicense(
-  "ORg4AjUWIQA/Gnt2VVhjQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRd0VhX39WdHdXTmNUUEA="
-);
+console.log("Key: ", process.env.REACT_APP_SYNCFUSION_API_KEY);
+//ToDo: Move API Key to backend
+registerLicense(process.env.REACT_APP_SYNCFUSION_API_KEY);
 root.render(
   <Provider store={store}>
     <Routs />

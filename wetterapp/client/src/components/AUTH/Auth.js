@@ -14,11 +14,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 // import Icon from "./icon";
 // import { signin, signup } from "../../actions/auth";
-import { AUTH } from "../../constants/actionTypes";
-import useStyles from "./styles";
-import Input from "./Input";
+import useStyles from "./utils/AuthStyles";
+import Input from "./utils/Input";
 import "./auth.css";
-import { loginUser, signupUser } from "./authSlice.js";
+import { loginUser, signupUser } from "../Slices/authSlice.js";
 
 const initialState = {
   firstName: "",

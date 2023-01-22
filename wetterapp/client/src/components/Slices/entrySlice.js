@@ -9,18 +9,6 @@ const initialState = {
 
 const profile = JSON.parse(localStorage.getItem("profile"));
 
-// export const fetchEntries = createAsyncThunk("/entry/all", () => {
-//   console.log("tesssst");
-//   // const userObj = localStorage.get("profile");
-//   // console.log("obj: ", userObj);
-
-//   return axios.get("http://localhost:5000/entry/all").then((response) => {
-//     console.log("got: ", response.data);
-
-//     return response.data;
-//   });
-// });
-
 export const fetchEntries = createAsyncThunk("/entry/allById", () => {
   const stationIds = profile.result.stationIds;
   var data = [];
