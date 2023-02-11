@@ -51,10 +51,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
-/*
-  Continue refactoring at constatnts folder in Frontend
-*/
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -135,10 +131,6 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const addExistingStation = () => {
-    // console.log("add");
   };
 
   return (

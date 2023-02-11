@@ -14,9 +14,11 @@ const signin = async (req, res) => {
     if (!oldUser)
       return res.status(404).json({ message: "User doesn't exist" });
 
-    console.log("pw here: ", oldUser.password);
+    const pw_decrypted = await bcrypt.hash(password, 12);
 
-    const isPasswordCorrect = bcrypt.compare(password, oldUser.password);
+    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
+    console.log("CORRECT: ", isPasswordCorrect);
 
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid credentials" });

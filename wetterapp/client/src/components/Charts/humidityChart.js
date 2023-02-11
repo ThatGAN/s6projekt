@@ -21,7 +21,13 @@ export const HumidityChart = (props) => {
       const tempCreatedAt = new Date(entry.createdAt);
 
       var formattedCreatedAt =
-        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+        tempCreatedAt.getDate() +
+        "/" +
+        (tempCreatedAt.getMonth() + 1) +
+        " " +
+        tempCreatedAt.getHours() +
+        ":" +
+        tempCreatedAt.getMinutes();
 
       entry.formattedCreatedAt = formattedCreatedAt;
     });
@@ -43,6 +49,8 @@ export const HumidityChart = (props) => {
             enableScrollbar: true,
             toolbarItems: ["ZoomIn", "ZoomOut", "Reset", "Pan"],
           }}
+          position="absolute"
+          size="auto"
           // margin={margin}
         >
           <Inject

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const initialState = {
   loading: false,
@@ -15,7 +14,7 @@ export const loginUser = createAsyncThunk(
       .post("http://localhost:5000/user/signin", formdata)
       .then((response) => {
         localStorage.setItem("profile", JSON.stringify({ ...response?.data }));
-        // navigate("/");
+        return true;
       });
   }
 );

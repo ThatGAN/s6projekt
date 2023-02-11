@@ -21,7 +21,13 @@ export const PressureChart = (props) => {
       const tempCreatedAt = new Date(entry.createdAt);
 
       var formattedCreatedAt =
-        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+        tempCreatedAt.getDate() +
+        "/" +
+        (tempCreatedAt.getMonth() + 1) +
+        " " +
+        tempCreatedAt.getHours() +
+        ":" +
+        tempCreatedAt.getMinutes();
 
       entry.formattedCreatedAt = formattedCreatedAt;
     });
@@ -54,7 +60,7 @@ export const PressureChart = (props) => {
               dataSource={props.dataFromParent.entries}
               xName="formattedCreatedAt"
               yName="pressure"
-              // marker={{ dataLabel: { visible: true }, visible: false }}
+              marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>
         </ChartComponent>

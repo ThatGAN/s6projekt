@@ -53,7 +53,11 @@ const SignUp = () => {
     if (isSignup) {
       dispatch(signupUser(form)).then(navigate("/"));
     } else {
-      dispatch(loginUser(form)).then(navigate("/"));
+      const res = dispatch(loginUser(form, navigate))
+        .unwrap()
+        .then((res) => {
+          if (res) navigate("/");
+        });
     }
   };
 

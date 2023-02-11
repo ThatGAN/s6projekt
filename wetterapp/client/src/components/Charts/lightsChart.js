@@ -23,7 +23,13 @@ export const LightsChart = (props) => {
       const tempCreatedAt = new Date(entry.createdAt);
 
       var formattedCreatedAt =
-        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
+        tempCreatedAt.getDate() +
+        "/" +
+        (tempCreatedAt.getMonth() + 1) +
+        " " +
+        tempCreatedAt.getHours() +
+        ":" +
+        tempCreatedAt.getMinutes();
 
       entry.formattedCreatedAt = formattedCreatedAt;
     });

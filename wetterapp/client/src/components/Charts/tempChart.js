@@ -17,11 +17,13 @@ export const TempChart = (props) => {
       const tempCreatedAt = new Date(entry.createdAt);
 
       var formattedCreatedAt =
-        tempCreatedAt.getDate() + "/" + (tempCreatedAt.getMonth() + 1);
-      // + " " +
-      // tempCreatedAt.getHours() +
-      // ":" +
-      // tempCreatedAt.getMinutes();
+        tempCreatedAt.getDate() +
+        "/" +
+        (tempCreatedAt.getMonth() + 1) +
+        " " +
+        tempCreatedAt.getHours() +
+        ":" +
+        tempCreatedAt.getMinutes();
 
       entry.formattedCreatedAt = formattedCreatedAt;
     });
@@ -38,7 +40,8 @@ export const TempChart = (props) => {
           title="Temperatur"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
           primaryYAxis={{ title: "Temperatur", minimum: 0 }}
-          zoomSettings={{ enableSelectionZooming: true }}
+          // zoomSettings={{ enableSelectionZooming: true }}
+          position="absolute"
         >
           <Inject services={[LineSeries, Category, DataLabel, Zoom]}></Inject>
           <SeriesCollectionDirective>
@@ -47,7 +50,7 @@ export const TempChart = (props) => {
               dataSource={props.dataFromParent.entries}
               xName="formattedCreatedAt"
               yName="temp"
-              // marker={{ dataLabel: { visible: true }, visible: false }}
+              marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>
         </ChartComponent>

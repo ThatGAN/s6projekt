@@ -5,19 +5,23 @@ import { SoundChart } from "./soundChart.js";
 import { PressureChart } from "./pressureChart.js";
 
 import { Grid, Item } from "@mui/material";
+import { Container } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import "./chartsCombine.css";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { DataComponent } from "../dataComponent/dataComponent.js";
 import TextField from "@mui/material/TextField";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
+import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { fetchEntries } from "../Slices/entrySlice.js";
+
+import { startOfMonth } from "date-fns";
 
 export const ChartsCombine = () => {
   let entries = useSelector((state) => state.entry);
@@ -31,7 +35,7 @@ export const ChartsCombine = () => {
   const [date, setDate] = useState([
     {
       startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      endDate: addDays(new Date(), -7),
       key: "selection",
     },
   ]);
@@ -56,7 +60,7 @@ export const ChartsCombine = () => {
       let formattedEntries = res.payload.map((val) => {
         let obj = {
           _id: val._id,
-          temp: val.temp,
+          temp: val.temperature,
           createdAt: val.createdAt,
         };
         return obj;
@@ -74,7 +78,7 @@ export const ChartsCombine = () => {
       let formattedEntriesLights = res.payload.map((val) => {
         let obj = {
           _id: val._id,
-          lights: val.lights,
+          lights: val.illuminance,
           createdAt: val.createdAt,
         };
         return obj;
@@ -160,8 +164,69 @@ export const ChartsCombine = () => {
   useEffect(() => {
     updateEntries();
   }, []);
-  // console.log("hum:", humidityData);
 
+  let currentSelection;
+
+  const getComponent = () => {
+    switch (currentSelection) {
+      case "normalHeader":
+        return (
+          <Grid container spacing={3}>
+            <Grid item sx={6}>
+              <DateRangePicker
+                onChange={(item) => {
+                  setDate([item.selection]);
+                  console.log("STATE: ", date);
+                  updateEntriesOnDateChange();
+                }}
+                showSelectionPreview={true}
+                moveRangeOnFirstSelection={false}
+                // shownDate={(startOfMonth(new Date()), d)}
+                months={2}
+                ranges={date}
+                direction="horizontal"
+                calendarFocus="backwards"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DataComponent></DataComponent>
+            </Grid>
+          </Grid>
+        );
+      case "mobileHeader":
+        return (
+          <div className="mobileHeader2">
+            <DateRange
+              editableDateInputs={true}
+              onChange={(item) => {
+                setDate([item.selection]);
+                console.log("STATE: ", date);
+                updateEntriesOnDateChange();
+              }}
+              moveRangeOnFirstSelection={false}
+              ranges={date}
+              // style={{ position: "center" }}
+              // shownDate={(startOfMonth(new Date()), d)}
+            />
+          </div>
+        );
+    }
+  };
+
+  // let d = new Date();
+
+  // console.log("Date: ", d);
+
+  let sp;
+
+  var x = window.matchMedia("(max-width: 700px)");
+  if (x.matches) {
+    sp = 12;
+    currentSelection = "mobileHeader";
+  } else {
+    sp = 6;
+    currentSelection = "normalHeader";
+  }
   return (
     <div>
       {entries.loading && <div>loading...</div>}
@@ -170,44 +235,32 @@ export const ChartsCombine = () => {
       ) : null}
       {!entries.loading && tempData ? (
         <div className="wrapper">
-          <DateRangePicker
-            onChange={(item) => {
-              setDate([item.selection]);
-              console.log("STATE: ", date);
-              updateEntriesOnDateChange();
-            }}
-            showSelectionPreview={true}
-            moveRangeOnFirstSelection={false}
-            months={2}
-            ranges={date}
-            direction="horizontal"
-          />
-
+          {getComponent()}
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
-              <Grid item xs>
+              <Grid item xs={sp}>
                 <TempChart dataFromParent={tempData}></TempChart>
               </Grid>
 
-              <Grid item xs>
+              <Grid item xs={sp}>
                 <HumidityChart dataFromParent={humidityData}></HumidityChart>
               </Grid>
             </Grid>
             <Grid container spacing={3}>
-              <Grid item xs>
+              <Grid item xs={sp}>
                 <LightsChart dataFromParent={lightsData}></LightsChart>
               </Grid>
 
-              <Grid item xs>
+              <Grid item xs={sp}>
                 <SoundChart dataFromParent={soundData}></SoundChart>
               </Grid>
             </Grid>
             <Grid container spacing={3}>
-              <Grid item xs>
+              <Grid item xs={sp}>
                 <PressureChart dataFromParent={pressureData}></PressureChart>
               </Grid>
 
-              <Grid item xs></Grid>
+              <Grid item xs={sp}></Grid>
             </Grid>
           </Box>
         </div>
