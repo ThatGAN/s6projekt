@@ -16,7 +16,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
+
 import MailIcon from "@mui/icons-material/Mail";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -27,6 +32,9 @@ import { Button } from "@material-ui/core";
 import useStyles from "./styles";
 import { AddExistingStationDialog } from "../stations/addExistingStationDialog";
 import { AddNewStationDialog } from "../stations/addNewStationDialog";
+
+import { fetchStations } from "../Slices/stationSlice";
+import { getData } from "../Slices/singleStationSlice";
 
 import "./header.css";
 
@@ -88,14 +96,15 @@ export default function PersistentDrawerLeft() {
   const [openAddExistingStation, setOpenAddExistingStation] =
     React.useState(false);
   const [openAddNewStation, setOpenaddNewStation] = React.useState(false);
+  const [station, setStation] = React.useState("");
 
-  const logout = () => {
-    // dispatch({ type: actionType.LOGOUT });
-
-    navigate("/");
-
-    setUser(null);
-  };
+  const [stations, setStations] = React.useState([
+    {
+      location: "",
+      name: "",
+      _id: "",
+    },
+  ]);
 
   useEffect(() => {
     const token = user?.token;
@@ -106,8 +115,35 @@ export default function PersistentDrawerLeft() {
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
 
-    setUser(JSON.parse(localStorage.getItem("profile")));
+    // setUser(JSON.parse(localStorage.getItem("profile")));
+    // console.log("User:", user.result.stationIds);
+    getStations();
   }, []);
+
+  const getStations = () => {
+    dispatch(fetchStations()).then((res) => {
+      console.log("payload:", res.payload);
+      const stationsData = res.payload;
+      setStations(stationsData);
+    });
+  };
+
+  const logout = () => {
+    navigate("/");
+    localStorage.clear();
+    window.location.reload(false);
+  };
+
+  const handleChange = (event) => {
+    dispatch(getData(event.target.value));
+    const dataSelected = event.target.value;
+    console.log("selectedTest:", dataSelected);
+    setStation(dataSelected.name);
+    console.log("StationName:", station);
+    const dataToSet = [dataSelected._id, dataSelected.location];
+    localStorage.setItem("selectedStation", JSON.stringify(dataToSet));
+    console.log("test:", dataToSet);
+  };
 
   const handleAddExistingStationOpen = () => {
     setOpenAddExistingStation(true);
@@ -147,33 +183,27 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div"></Typography>
-          <div className="signIn right">
-            {user?.result ? (
-              <div className={classes.profile}>
-                <Button
-                  variant="contained"
-                  style={{ marginLeft: "auto" }}
-                  className={classes.logout}
-                  color="secondary"
-                  onClick={logout}
+          {user?.result ? (
+            <Box sx={{ minWidth: 140 }} className="Selection">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Station</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={station}
+                  label="Station"
+                  autoWidth
+                  onChange={handleChange}
                 >
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <Button
-                className={classes.logout}
-                style={{ float: "right", marginLeft: "auto" }}
-                component={Link}
-                to="/auth"
-                variant="contained"
-                color="primary"
-              >
-                Sign In
-              </Button>
-            )}
-          </div>
+                  {stations.map((stationData) => (
+                    <MenuItem value={stationData}>{stationData.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ) : (
+            <Box></Box>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -238,6 +268,30 @@ export default function PersistentDrawerLeft() {
             </ListItem>
           ))}
         </List>
+        <div className="signIn right">
+          {user?.result ? (
+            <div className={classes.profile}>
+              <Button
+                variant="contained"
+                className={classes.logout}
+                color="secondary"
+                onClick={logout}
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Button
+              className={classes.logout}
+              component={Link}
+              to="/auth"
+              variant="contained"
+              color="primary"
+            >
+              Sign In
+            </Button>
+          )}
+        </div>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

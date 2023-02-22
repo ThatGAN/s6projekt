@@ -1,5 +1,7 @@
 import { createAsyncThunk, createThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 
 const initialState = {
   loading: false,
@@ -7,10 +9,9 @@ const initialState = {
   error: "",
 };
 
-const profile = JSON.parse(localStorage.getItem("profile"));
-
 export const fetchEntries = createAsyncThunk("/entry/allById", () => {
-  const stationIds = profile.result.stationIds;
+  const selectedStation = localStorage.getItem("selectedStation");
+  const stationIds = "637e7149f0007e04d9e986aa";
   var data = [];
   return axios
     .post("http://localhost:5000/entry/allById", { stationId: stationIds })

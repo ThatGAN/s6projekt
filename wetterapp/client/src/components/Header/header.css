@@ -1,9 +1,19 @@
 .signIn {
+  margin-top: auto;
   margin-left: auto;
+  padding: 1em;
 }
 
 .mobileDrawer {
   margin-top: -2em;
   margin-left: 1em;
   position: fixed;
+}
+
+.Selection {
+  margin-left: auto;
+  background-color: rgba(71, 90, 96, 0.308);
+  border-radius: 5px;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
 }

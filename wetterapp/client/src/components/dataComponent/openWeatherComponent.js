@@ -1,41 +1,37 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import "./index.css";
+import { Button } from "@mui/material";
+import "./dataComponent.css";
 
 export const OpenWeatherComponent = () => {
   const [data, setData] = useState({});
-  const [location, setLocation] = useState("");
 
-  useEffect(() => {
-    const setInitLocation = async () => {
-      setLocation("brochterbeck");
-      await axios
-        .get(url)
-        .then((response) => {
-          setData(response.data);
-          console.log(response.data);
-          console.log(url);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    };
-    setInitLocation();
-  }, []);
+  // useEffect(() => {
+  //   setInitLocation();
+  // }, [data]);
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=brochterbeck&units=metric&lang=de&appid=3b065e9f4a263796c86392703ecceefb`;
+  // // const selectedStation = localStorage.getItem("selectedStation");
+  // let selectedStation = useSelector((state) => state.singleStation.value);
+  // const location = selectedStation.location;
 
-  const searchLocation = (event) => {
-    if (event.key === "Enter") {
-      axios.get(url).then((response) => {
-        setData(response.data);
-        console.log(response.data);
-      });
-      setLocation("");
-    }
-  };
+  // const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&lang=de&appid=3b065e9f4a263796c86392703ecceefb`;
 
-  console.log("l", location);
+  // console.log("location", selectedStation.location);
+  // console.log("URL:", url);
+  // const setInitLocation = () => {
+  //   axios
+  //     .get(url)
+  //     .then((response) => {
+  //       setData(response.data);
+  //       console.log(response.data);
+  //       console.log(url);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
+
   return (
     <div className="app">
       {/* <div className="search">
@@ -47,6 +43,7 @@ export const OpenWeatherComponent = () => {
           type="text"
         />
       </div> */}
+      {/* <Button onClick={setInitLocation}>ReloadHere</Button> */}
       <div className="container">
         <div className="top">
           <div className="location">
@@ -66,17 +63,17 @@ export const OpenWeatherComponent = () => {
               {data.main ? (
                 <p className="bold">{data.main.feels_like.toFixed()}°C</p>
               ) : null}
-              <p>Gefühlt</p>
+              <p className="writing">Gefühlt</p>
             </div>
             <div className="humidity">
               {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
-              <p>Luftfeutchtigkeit</p>
+              <p className="writing">Luftfeutchtigkeit</p>
             </div>
             <div className="wind">
               {data.wind ? (
                 <p className="bold">{data.wind.speed.toFixed()} KM/H</p>
               ) : null}
-              <p>Wind Geschwindigkeit</p>
+              <p className="writing">Wind Geschwindigkeit</p>
             </div>
           </div>
         )}

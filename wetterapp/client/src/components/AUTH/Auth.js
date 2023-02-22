@@ -56,7 +56,10 @@ const SignUp = () => {
       const res = dispatch(loginUser(form, navigate))
         .unwrap()
         .then((res) => {
-          if (res) navigate("/");
+          if (res) {
+            navigate("/");
+            window.location.reload(false);
+          }
         });
     }
   };

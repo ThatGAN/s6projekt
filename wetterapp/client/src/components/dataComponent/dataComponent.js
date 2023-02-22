@@ -5,18 +5,20 @@ import { Grid } from "@mui/material";
 export const DataComponent = () => {
   return (
     <div>
-      <Paper elevation={24}>
-        <Grid container spacing={3}>
-          <Grid item sx={6}>
-            <Card>
-              <OpenWeatherComponent></OpenWeatherComponent>
-            </Card>
+      <flexbox>
+        <Paper elevation={12}>
+          <Grid container spacing={3}>
+            <Grid item sx={6}>
+              <Card className="openWeather">
+                <OpenWeatherComponent></OpenWeatherComponent>
+              </Card>
+            </Grid>
+            <Grid item sx={6}>
+              <Card className="liveData"></Card>
+            </Grid>
           </Grid>
-          <Grid item sx={6}>
-            <Card>test</Card>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </flexbox>
     </div>
   );
 };

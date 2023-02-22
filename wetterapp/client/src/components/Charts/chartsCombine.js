@@ -4,7 +4,7 @@ import { LightsChart } from "./lightsChart.js";
 import { SoundChart } from "./soundChart.js";
 import { PressureChart } from "./pressureChart.js";
 
-import { Grid, Item } from "@mui/material";
+import { Grid, Item, Button } from "@mui/material";
 import { Container } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import "./chartsCombine.css";
@@ -24,6 +24,8 @@ import { fetchEntries } from "../Slices/entrySlice.js";
 import { startOfMonth } from "date-fns";
 
 export const ChartsCombine = () => {
+  const dispatch = useDispatch();
+
   let entries = useSelector((state) => state.entry);
   const [tempData, setTempData] = useState({});
   const [humidityData, setHumidityData] = useState({});
@@ -31,6 +33,8 @@ export const ChartsCombine = () => {
   const [soundData, setSoundData] = useState({});
   const [pressureData, setPressureData] = useState({});
   const [groundHumidityData, setGroundHumidityData] = useState({});
+  let selectedStation = useSelector((state) => state.singleStation.value);
+  console.log("heresdfgsdf", selectedStation._id);
 
   const [date, setDate] = useState([
     {
@@ -40,8 +44,14 @@ export const ChartsCombine = () => {
     },
   ]);
 
+  useEffect(() => {
+    updateEntries();
+  }, []);
+
   const updateEntries = () => {
     console.log("CALLED UPDATE!");
+    console.log("here", selectedStation._id);
+
     dispatch(fetchEntries()).then((res) => {
       console.log("payload: ", res.payload);
       var startDate = new Date(date[0].startDate);
@@ -160,11 +170,6 @@ export const ChartsCombine = () => {
     3. Date Umwandlung zentral anlegen
   */
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    updateEntries();
-  }, []);
-
   let currentSelection;
 
   const getComponent = () => {
@@ -238,6 +243,7 @@ export const ChartsCombine = () => {
           {getComponent()}
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
+              <Button onClick={updateEntries}>Reload</Button>
               <Grid item xs={sp}>
                 <TempChart dataFromParent={tempData}></TempChart>
               </Grid>
