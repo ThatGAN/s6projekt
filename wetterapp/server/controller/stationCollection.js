@@ -26,6 +26,29 @@ const all = async (req, res) => {
   }
 };
 
+const allById = async (req, res) => {
+  try {
+    stationId = req.body.stationId;
+
+    station = stationCollection.find(
+      { _id: { $in: stationId } },
+      (err, docs) => {
+        if (err) {
+          console.log("error");
+          res.send({ msg: "no Config Item found(undefined)" });
+        } else if (docs.length) {
+          res.status(201).send(docs);
+        } else {
+          console.log("no Config Item found!");
+          res.send({ msg: "no Config Item found" });
+        }
+      }
+    );
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 const addNewStation = async (req, res) => {
   const { name, location } = req.body;
 
@@ -44,5 +67,6 @@ const addNewStation = async (req, res) => {
 
 module.exports = {
   all,
+  allById,
   addNewStation,
 };
