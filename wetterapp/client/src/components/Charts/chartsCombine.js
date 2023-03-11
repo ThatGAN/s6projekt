@@ -23,6 +23,14 @@ import { fetchEntries } from "../Slices/entrySlice.js";
 
 import { startOfMonth } from "date-fns";
 
+/*
+08.03
+ToDo:
+1.Selected Station über function übergeben(currying)
+2. openWeatherComponent Api call ins backend fertig
+3. liveData component abfrage an den letzten Eintrag der API
+*/
+
 export const ChartsCombine = () => {
   const dispatch = useDispatch();
 
@@ -33,8 +41,9 @@ export const ChartsCombine = () => {
   const [soundData, setSoundData] = useState({});
   const [pressureData, setPressureData] = useState({});
   const [groundHumidityData, setGroundHumidityData] = useState({});
-  let selectedStation = useSelector((state) => state.singleStation.value);
-  console.log("heresdfgsdf", selectedStation._id);
+  // let selectedStation = useSelector((state) => state.singleStation.value);
+  let selectedStation = useSelector((state) => state.station.selectedStation);
+  console.log("heresdfgsdf", selectedStation);
 
   const [date, setDate] = useState([
     {
