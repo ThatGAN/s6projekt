@@ -121,7 +121,7 @@ void loop() {
     Serial.println("MqttConnect:");
     Serial.println(mqttClient.connected());
 
-  //Check to see if the Connections are alive
+  //Check to see if the connections are alive
   //This defaults to connect after wakeUp
   verifyConnection();
   verifyMQTT();
