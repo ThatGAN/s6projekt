@@ -7,13 +7,15 @@ import "./dataComponent.css";
 export const OpenWeatherComponent = () => {
   const [data, setData] = useState({});
 
-  // useEffect(() => {
-  //   setInitLocation();
-  // }, [data]);
+  const location = "";
+
+  useEffect(() => {
+    // setInitLocation();
+  }, []);
 
   // // const selectedStation = localStorage.getItem("selectedStation");
   // let selectedStation = useSelector((state) => state.singleStation.value);
-  // const location = selectedStation.location;
+  // location = selectedStation.location;
 
   // const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&lang=de&appid=3b065e9f4a263796c86392703ecceefb`;
 
@@ -43,7 +45,7 @@ export const OpenWeatherComponent = () => {
           type="text"
         />
       </div> */}
-      {/* <Button onClick={setInitLocation}>ReloadHere</Button> */}
+      {/* <Button onClick={setInitLocation}>Reload Here</Button> */}
       <div className="container">
         <div className="top">
           <div className="location">

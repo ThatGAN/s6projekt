@@ -15,7 +15,7 @@ ToDo:
 2. Drop Down Menu von LocalStorage weg
 
 */
-export const = createAsyncThunk(
+export const  = createAsyncThunk(
   "/stationCollection/openWeatherData",
   () => {
     const stationIds = profile.result.stationIds;

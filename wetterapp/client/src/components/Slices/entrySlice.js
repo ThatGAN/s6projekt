@@ -10,8 +10,8 @@ const initialState = {
 };
 
 export const fetchEntries = createAsyncThunk("/entry/allById", () => {
-  const selectedStation = localStorage.getItem("selectedStation");
-  const stationIds = "637e7149f0007e04d9e986aa";
+  let selectedStation = useSelector((state) => state.station.selectedStation);
+  const stationIds = selectedStation;
   var data = [];
   return axios
     .post("http://localhost:5000/entry/allById", { stationId: stationIds })

@@ -1,5 +1,6 @@
 import { Paper, Card } from "@mui/material";
 import { OpenWeatherComponent } from "./openWeatherComponent.js";
+import { liveData } from "./liveData.js";
 import { Grid } from "@mui/material";
 
 export const DataComponent = () => {
@@ -14,7 +15,9 @@ export const DataComponent = () => {
               </Card>
             </Grid>
             <Grid item sx={6}>
-              <Card className="liveData"></Card>
+              <Card className="liveData">
+                <liveData></liveData>
+              </Card>
             </Grid>
           </Grid>
         </Paper>

@@ -33,9 +33,7 @@ import useStyles from "./styles";
 import { AddExistingStationDialog } from "../stations/addExistingStationDialog";
 import { AddNewStationDialog } from "../stations/addNewStationDialog";
 
-import { fetchStations } from "../Slices/stationSlice";
-import { getData } from "../Slices/singleStationSlice";
-
+import { fetchStations, selectStation } from "../Slices/stationSlice";
 import "./header.css";
 
 const drawerWidth = 240;
@@ -114,9 +112,6 @@ export default function PersistentDrawerLeft() {
 
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-
-    // setUser(JSON.parse(localStorage.getItem("profile")));
-    // console.log("User:", user.result.stationIds);
     getStations();
   }, []);
 
@@ -125,6 +120,8 @@ export default function PersistentDrawerLeft() {
       console.log("payload:", res.payload);
       const stationsData = res.payload;
       setStations(stationsData);
+      setDropdownStation(res.payload[0]);
+      dispatch(selectStation(res.payload[0]));
     });
   };
 
@@ -135,14 +132,17 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleChange = (event) => {
-    dispatch(getData(event.target.value));
-    const dataSelected = event.target.value;
-    console.log("selectedTest:", dataSelected);
-    setStation(dataSelected.name);
-    console.log("StationName:", station);
-    const dataToSet = [dataSelected._id, dataSelected.location];
-    localStorage.setItem("selectedStation", JSON.stringify(dataToSet));
-    console.log("test:", dataToSet);
+    // dispatch(getData(event.target.value));
+    // const dataSelected = event.target.value;
+    // console.log("selectedTest:", dataSelected);
+    // setStation(dataSelected.name);
+    // console.log("StationName:", station);
+    // const dataToSet = [dataSelected._id, dataSelected.location];
+    // localStorage.setItem("selectedStation", JSON.stringify(dataToSet));
+    // console.log("test:", dataToSet);
+    dispatch(selectStation(event.target.value));
+    // console.log();
+    setDropdownStation(event.target.value);
   };
 
   const handleAddExistingStationOpen = () => {
@@ -169,6 +169,8 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const [dropdownStation, setDropdownStation] = useState("");
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -190,14 +192,15 @@ export default function PersistentDrawerLeft() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={station}
-                  label="Station"
+                  value={dropdownStation}
                   autoWidth
                   onChange={handleChange}
+                  defaultValue={{ label: "test", value: "testst" }}
                 >
                   {stations.map((stationData) => (
                     <MenuItem value={stationData}>{stationData.name}</MenuItem>
                   ))}
+                  {/* <MenuItem value={"test"}>düdel</MenuItem> */}
                 </Select>
               </FormControl>
             </Box>

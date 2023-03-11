@@ -7,6 +7,7 @@ const initialState = {
   loading: false,
   entries: [],
   error: "",
+  selectedStation: "",
 };
 
 const profile = JSON.parse(localStorage.getItem("profile"));
@@ -26,19 +27,24 @@ export const fetchStations = createAsyncThunk(
   }
 );
 
-export const singleStation = createSlice({
-  name: "singleStation",
-  initialState: { value: initialStateValue },
-  reducers: {
-    getData: (state, action) => {
-      state.value = action.payload;
-    },
-  },
-});
+// export const singleStation = createSlice({
+//   name: "singleStation",
+//   initialState: { value: initialStateValue },*
+//   reducers: {
+//     getData: (state, action) => {
+//       state.value = action.payload;
+//     },
+//   },
+// });
 
 const stationSlice = createSlice({
-  name: "entry",
+  name: "stations",
   initialState,
+  reducers: {
+    selectStation: (state, action) => {
+      state.selectedStation = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchStations.pending, (state) => {
       state.loading = true;
@@ -56,8 +62,9 @@ const stationSlice = createSlice({
   },
 });
 
-export const { getData } = singleStation.actions;
+// export const { getData } = singleStation.actions;
 
-export  singleStation.reducer;
+// export  singleStation.reducer;
 
-export default stationSlice.reducer; 
+export default stationSlice.reducer;
+export const { selectStation } = stationSlice.actions;
