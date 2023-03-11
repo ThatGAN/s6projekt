@@ -37,16 +37,13 @@ void setup()
 
 void loop()
 {
-  float temp_hum_val[2] = {0};
-  int raw_light = analogRead(light_sensor);
-  int light = map(raw_light, 0, 1023, 0, 100);
-  int soundValue = 0;  
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-
-
-  while(true)
+while(true)
   {
+    float temp_hum_val[2] = {0};
+    int raw_light = analogRead(light_sensor);
+    int light = map(raw_light, 0, 1023, 0, 100);
+    int soundValue = 0;  
+    
     if (!dht.readTempAndHumidity(temp_hum_val)) {
        /* debug.print("Humidity: ");
         
@@ -84,9 +81,7 @@ void loop()
     {
       Serial.println("      !! Sound thres hold met !!        ");
     }
-    delay(1500);
+    delay(600000);
     }
-
-delay(600000);
   
 }
