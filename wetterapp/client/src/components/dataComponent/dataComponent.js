@@ -1,12 +1,15 @@
 import { Paper, Card } from "@mui/material";
 import { OpenWeatherComponent } from "./openWeatherComponent.js";
-import { liveData } from "./liveData.js";
+import { LiveData } from "./liveData.js";
 import { Grid } from "@mui/material";
+import { useState } from "react";
 
 export const DataComponent = () => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
   return (
     <div>
-      <flexbox>
+      {user?.result ? (
         <Paper elevation={12}>
           <Grid container spacing={3}>
             <Grid item sx={6}>
@@ -16,12 +19,14 @@ export const DataComponent = () => {
             </Grid>
             <Grid item sx={6}>
               <Card className="liveData">
-                <liveData></liveData>
+                <LiveData></LiveData>
               </Card>
             </Grid>
           </Grid>
         </Paper>
-      </flexbox>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

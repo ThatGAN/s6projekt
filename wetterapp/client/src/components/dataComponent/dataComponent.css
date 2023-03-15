@@ -18,13 +18,15 @@ p {
 }
 
 h1 {
-  font-size: 6rem;
+  font-size: 4rem;
 }
 
 .writing {
-  margin-left: 1em;
-  margin-right: 1em;
+  /* margin-left: 1em;
+  margin-right: 1em; */
   color: black;
+  font-size: larger;
+  font-weight: 300;
 }
 
 .app {
@@ -80,16 +82,17 @@ h1 {
 .app .description {
   position: relative;
   right: -90%;
+  top: 2rem;
+
   transform-origin: 0 0;
   transform: rotate(269deg);
-  padding-left: 2rem;
-  padding-top: 1rem;
+  padding-top: 0rem;
 }
 
 .app .bottom {
   display: flex;
   justify-content: space-evenly;
-  text-align: center;
+  /* text-align: center; */
   width: 100%;
   margin: 1rem auto;
   padding: 1rem;

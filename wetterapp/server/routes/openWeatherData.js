@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { openWeatherData } = require("../controller/openWeatherData.js");
+const { getData } = require("../controller/openWeather.js");
 
-router.post("/openWeatherData", openWeatherData);
+router.post("/getData", getData);
 
 module.exports = router;

@@ -21,8 +21,6 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { fetchEntries } from "../Slices/entrySlice.js";
 
-import { startOfMonth } from "date-fns";
-
 /*
 08.03
 ToDo:
@@ -53,15 +51,20 @@ export const ChartsCombine = () => {
     },
   ]);
 
+  const location = useSelector(
+    (state) => state.station.selectedStation.location
+  );
+
   useEffect(() => {
     updateEntries();
-  }, []);
+    console.log("Date:", date[0].endDate);
+  }, [date[0].endDate, location]);
 
   const updateEntries = () => {
     console.log("CALLED UPDATE!");
     console.log("here", selectedStation._id);
 
-    dispatch(fetchEntries()).then((res) => {
+    dispatch(fetchEntries(selectedStation._id)).then((res) => {
       console.log("payload: ", res.payload);
       var startDate = new Date(date[0].startDate);
       // startDate.setDate(startDate.getDate() - 1);
@@ -191,11 +194,12 @@ export const ChartsCombine = () => {
                 onChange={(item) => {
                   setDate([item.selection]);
                   console.log("STATE: ", date);
-                  updateEntriesOnDateChange();
+                  // updateEntriesOnDateChange();
                 }}
                 showSelectionPreview={true}
-                moveRangeOnFirstSelection={false}
+                retainEndDateOnFirstSelection={true}
                 // shownDate={(startOfMonth(new Date()), d)}
+                preventSnapRefocus={true}
                 months={2}
                 ranges={date}
                 direction="horizontal"
@@ -215,10 +219,11 @@ export const ChartsCombine = () => {
               onChange={(item) => {
                 setDate([item.selection]);
                 console.log("STATE: ", date);
-                updateEntriesOnDateChange();
+                // updateEntriesOnDateChange();
               }}
               moveRangeOnFirstSelection={false}
               ranges={date}
+              retainEndDateOnFirstSelection={true}
               // style={{ position: "center" }}
               // shownDate={(startOfMonth(new Date()), d)}
             />
@@ -250,7 +255,7 @@ export const ChartsCombine = () => {
       {!entries.loading && tempData ? (
         <div className="wrapper">
           {getComponent()}
-          <Box sx={{ flexGrow: 1 }}>
+          <Box xs={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
               <Button onClick={updateEntries}>Reload</Button>
               <Grid item xs={sp}>

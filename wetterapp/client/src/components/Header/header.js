@@ -132,17 +132,13 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleChange = (event) => {
-    // dispatch(getData(event.target.value));
-    // const dataSelected = event.target.value;
-    // console.log("selectedTest:", dataSelected);
-    // setStation(dataSelected.name);
-    // console.log("StationName:", station);
-    // const dataToSet = [dataSelected._id, dataSelected.location];
-    // localStorage.setItem("selectedStation", JSON.stringify(dataToSet));
-    // console.log("test:", dataToSet);
     dispatch(selectStation(event.target.value));
-    // console.log();
+    console.log("hereNow:", event.target.value);
     setDropdownStation(event.target.value);
+    localStorage.setItem(
+      "location",
+      JSON.stringify(event.target.value.location)
+    );
   };
 
   const handleAddExistingStationOpen = () => {

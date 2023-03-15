@@ -9,16 +9,18 @@ const initialState = {
   error: "",
 };
 
-export const fetchEntries = createAsyncThunk("/entry/allById", () => {
-  let selectedStation = useSelector((state) => state.station.selectedStation);
-  const stationIds = selectedStation;
-  var data = [];
-  return axios
-    .post("http://localhost:5000/entry/allById", { stationId: stationIds })
-    .then((response) => {
-      return response.data;
-    });
-});
+export const fetchEntries = createAsyncThunk(
+  "/entry/allById",
+  (selectedStation) => {
+    const stationIds = selectedStation;
+    var data = [];
+    return axios
+      .post("http://localhost:5000/entry/allById", { stationId: stationIds })
+      .then((response) => {
+        return response.data;
+      });
+  }
+);
 
 const entrySlice = createSlice({
   name: "entry",

@@ -7,7 +7,6 @@ const initialState = {
   error: "",
 };
 
-const profile = JSON.parse(localStorage.getItem("profile"));
 /*
 ToDo:
 1. Api Call für openWeatherComponent
@@ -15,13 +14,13 @@ ToDo:
 2. Drop Down Menu von LocalStorage weg
 
 */
-export const  = createAsyncThunk(
-  "/stationCollection/openWeatherData",
-  () => {
-    const stationIds = profile.result.stationIds;
+export const fetchOpenWeather = createAsyncThunk(
+  "/openWeatherData/getData",
+  (location) => {
     var data = [];
+    console.log(location);
     return axios
-      .post("http://localhost:5000/stationCollection/openWeatherData", {
+      .post("http://localhost:5000/openWeatherData/getData", {
         location: location,
       })
       .then((response) => {
@@ -30,19 +29,19 @@ export const  = createAsyncThunk(
   }
 );
 
-const stationSlice = createSlice({
+const openWeather = createSlice({
   name: "entry",
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(fetchStations.pending, (state) => {
+    builder.addCase(fetchOpenWeather.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchStations.fulfilled, (state, action) => {
+    builder.addCase(fetchOpenWeather.fulfilled, (state, action) => {
       state.loading = false;
       state.stations = action.payload;
       state.error = "";
     });
-    builder.addCase(fetchStations.rejected, (state, action) => {
+    builder.addCase(fetchOpenWeather.rejected, (state, action) => {
       state.loading = false;
       state.stations = [];
       state.error = action.error.message;
@@ -50,4 +49,4 @@ const stationSlice = createSlice({
   },
 });
 
-export default stationSlice.reducer;
+export default openWeather.reducer;

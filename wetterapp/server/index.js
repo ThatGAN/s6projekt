@@ -6,6 +6,7 @@ const connection = require("./db");
 const userRouter = require("./routes/user.js");
 const entryRouter = require("./routes/entry.js");
 const stationCollectionRouter = require("./routes/stationCollection.js");
+const openWeatherDataRouter = require("./routes/openWeatherData.js");
 
 require("dotenv").config();
 
@@ -27,6 +28,7 @@ connection();
 app.use("/user", userRouter);
 app.use("/entry", entryRouter);
 app.use("/stationCollection", stationCollectionRouter);
+app.use("/openWeatherData", openWeatherDataRouter);
 
 const port = process.env.PORT || 5000;
 
