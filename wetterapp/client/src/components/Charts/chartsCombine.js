@@ -39,7 +39,7 @@ export const ChartsCombine = () => {
   const [soundData, setSoundData] = useState({});
   const [pressureData, setPressureData] = useState({});
   const [groundHumidityData, setGroundHumidityData] = useState({});
-  // let selectedStation = useSelector((state) => state.singleStation.value);
+
   let selectedStation = useSelector((state) => state.station.selectedStation);
   console.log("heresdfgsdf", selectedStation);
 
