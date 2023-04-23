@@ -2,8 +2,15 @@
   padding-top: 3em;
 }
 
-.emptyBar {
-  font-size: 5rem; /* make our h1 tag larger */
+.Container {
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  size: 3rem;
+  height: 10vw;
+}
+
+.Bar {
+  font-size: 5vw; /* make our h1 tag larger */
   font-family: sans-serif; /* choosing our font */
   background: linear-gradient(
       to right,
@@ -21,9 +28,7 @@
   -webkit-background-clip: text; /*for browsers compatibility */
   -webkit-text-fill-color: transparent; /* specifies the fill color of text characters. We use transparent to use the background as our text fill  */
   animation: wave 5000ms ease alternate infinite;
-  transition: all 0.4s ease;
-  size: 3rem;
-  height: 5rem;
+  transition: all 0.8s ease;
 }
 
 @keyframes wave {
@@ -33,4 +38,109 @@
   100% {
     background-position: 50vw 10px;
   }
+}
+
+.large-box {
+  background-color: #f5f5f5;
+  padding: 20px;
+  padding-bottom: 0px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #ccc;
+}
+
+.large-box h2 {
+  margin-top: 0;
+}
+
+.inner-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pic {
+  width: 20vw;
+}
+.bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  /* padding-top: 20px; */
+}
+
+.left-section,
+.right-section {
+  flex: 1;
+}
+
+.middle-section {
+  width: 1px;
+  height: 9vw;
+  background-color: #6e6e6e43;
+}
+
+.right-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-section {
+  margin-top: 0.5vw;
+  /* padding-top: 1vw; */
+  display: flex;
+  width: auto;
+  height: 8vw;
+  justify-content: center;
+  align-content: center;
+}
+
+.logo {
+  width: auto;
+  height: 100%;
+}
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  height: 4vw;
+}
+
+@media screen and (max-width: 767px) {
+  .pic {
+    width: 50vw;
+  }
+
+  .Bar {
+    font-size: 10vw;
+  }
+
+  .large-box {
+    width: 100%;
+    /* position: relative; */
+  }
+
+  .button {
+    height: 6vw;
+  }
+
+  .right-section {
+    width: 100%;
+  }
+
+  .left-section {
+    height: 15vw;
+  }
+
+  .middle-section {
+    height: 15.5vw;
+  }
+  /* .right-section {
+    margin-top: 10vw;
+    justify-content: right;
+    width: 100%;
+  } */
 }

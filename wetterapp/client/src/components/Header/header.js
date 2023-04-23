@@ -178,31 +178,27 @@ export default function PersistentDrawerLeft() {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
+            style={{ width: "2rem" }}
           >
             <MenuIcon />
           </IconButton>
-          {user?.result ? (
-            <Box sx={{ minWidth: 140 }} className="Selection">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Station</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={dropdownStation}
-                  autoWidth
-                  onChange={handleChange}
-                  defaultValue={{ label: "test", value: "testst" }}
-                >
-                  {stations.map((stationData) => (
-                    <MenuItem value={stationData}>{stationData.name}</MenuItem>
-                  ))}
-                  {/* <MenuItem value={"test"}>düdel</MenuItem> */}
-                </Select>
-              </FormControl>
-            </Box>
-          ) : (
-            <Box></Box>
-          )}
+
+          <Box sx={{ minWidth: 140 }} className="Selection">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Station</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={dropdownStation}
+                autoWidth
+                onChange={handleChange}
+              >
+                {stations.map((stationData) => (
+                  <MenuItem value={stationData}>{stationData.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -219,7 +215,14 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton
+            style={{
+              width: "2.5rem",
+              justifyContent: "center",
+              marginRight: "6rem",
+            }}
+            onClick={handleDrawerClose}
+          >
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (

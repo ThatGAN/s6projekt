@@ -4,12 +4,10 @@ import { LightsChart } from "./lightsChart.js";
 import { SoundChart } from "./soundChart.js";
 import { PressureChart } from "./pressureChart.js";
 
-import { Grid, Item, Button } from "@mui/material";
-import { Container } from "@material-ui/core";
+import { Grid, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import "./chartsCombine.css";
 import { DataComponent } from "../dataComponent/dataComponent.js";
-import TextField from "@mui/material/TextField";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -255,9 +253,9 @@ export const ChartsCombine = () => {
       {!entries.loading && tempData ? (
         <div className="wrapper">
           {getComponent()}
+          <Button onClick={updateEntries}>Reload</Button>
           <Box xs={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
-              <Button onClick={updateEntries}>Reload</Button>
               <Grid item xs={sp}>
                 <TempChart dataFromParent={tempData}></TempChart>
               </Grid>
