@@ -19,12 +19,15 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { fetchEntries } from "../Slices/entrySlice.js";
 
+import { WeatherMap } from "../Maps/weatherMap.js";
+
 /*
 08.03
 ToDo:
 1.Selected Station über function übergeben(currying)
 2. openWeatherComponent Api call ins backend fertig
 3. liveData component abfrage an den letzten Eintrag der API
+DONE
 */
 
 export const ChartsCombine = () => {
@@ -37,14 +40,15 @@ export const ChartsCombine = () => {
   const [soundData, setSoundData] = useState({});
   const [pressureData, setPressureData] = useState({});
   const [groundHumidityData, setGroundHumidityData] = useState({});
+  const [lastEntry, setLastEntry] = useState({});
 
   let selectedStation = useSelector((state) => state.station.selectedStation);
-  console.log("heresdfgsdf", selectedStation);
+  console.log("Selected Station:", selectedStation);
 
   const [date, setDate] = useState([
     {
-      startDate: new Date(),
-      endDate: addDays(new Date(), -7),
+      startDate: addDays(new Date(), -7),
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -53,10 +57,14 @@ export const ChartsCombine = () => {
     (state) => state.station.selectedStation.location
   );
 
-  useEffect(() => {
-    updateEntries();
-    console.log("Date:", date[0].endDate);
-  }, [date[0].endDate, location]);
+  useEffect(
+    () => {
+      updateEntries();
+      console.log("Date:", date[0].endDate);
+    },
+    [date[0].endDate, location],
+    []
+  );
 
   const updateEntries = () => {
     console.log("CALLED UPDATE!");
@@ -64,11 +72,13 @@ export const ChartsCombine = () => {
 
     dispatch(fetchEntries(selectedStation._id)).then((res) => {
       console.log("payload: ", res.payload);
-      var startDate = new Date(date[0].startDate);
+      var startDate = new Date(date[0].startDate - 7);
       // startDate.setDate(startDate.getDate() - 1);
       var endDate = new Date(date[0].endDate);
       console.log("start date: ", startDate);
       console.log("end date: ", endDate);
+
+      const lastEntryPayload = res.payload[res.payload.length - 1];
 
       res.payload = res.payload.filter((entry) => {
         // console.log("entry: ", entry);
@@ -85,6 +95,7 @@ export const ChartsCombine = () => {
         };
         return obj;
       });
+      console.log("Formatted:", formattedEntries);
 
       let formattedEntriesHumidity = res.payload.map((val) => {
         let obj = {
@@ -161,6 +172,7 @@ export const ChartsCombine = () => {
         error: entries.error,
         entries: formattedEntriesGroundHumidity,
       };
+      setLastEntry(lastEntryPayload);
       setTempData(td);
       setHumidityData(hd);
       setLightsData(ld);
@@ -189,6 +201,7 @@ export const ChartsCombine = () => {
           <Grid container spacing={3}>
             <Grid item sx={6}>
               <DateRangePicker
+                className="dateRange"
                 onChange={(item) => {
                   setDate([item.selection]);
                   console.log("STATE: ", date);
@@ -201,11 +214,11 @@ export const ChartsCombine = () => {
                 months={2}
                 ranges={date}
                 direction="horizontal"
-                calendarFocus="backwards"
+                calendarFocus="forwards"
               />
             </Grid>
             <Grid item xs={6}>
-              <DataComponent></DataComponent>
+              <DataComponent dataFromParent={lastEntry}></DataComponent>
             </Grid>
           </Grid>
         );

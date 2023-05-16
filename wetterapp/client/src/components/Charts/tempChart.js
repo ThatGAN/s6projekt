@@ -50,7 +50,7 @@ export const TempChart = (props) => {
               dataSource={props.dataFromParent.entries}
               xName="formattedCreatedAt"
               yName="temp"
-              marker={{ dataLabel: { visible: true }, visible: false }}
+              // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>
         </ChartComponent>

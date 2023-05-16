@@ -157,6 +157,10 @@ export default function PersistentDrawerLeft() {
     setOpenaddNewStation(false);
   };
 
+  const handleOpenMaps = () => {
+    navigate("/maps");
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -232,30 +236,32 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Add new Station", "Add existing Station"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton
-                onClick={
-                  index % 1 === 0 && index !== 0
-                    ? handleAddExistingStationOpen
-                    : handleAddNewStationOpen
-                }
-              >
-                <ListItemIcon>
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-              <AddExistingStationDialog
-                open={openAddExistingStation}
-                onClose={handleAddExistingStationClose}
-              />
-              <AddNewStationDialog
-                open={openAddNewStation}
-                onClose={handleAddNewStationClose}
-              />
-            </ListItem>
-          ))}
+          {["Maps", "Add new Station", "Add existing Station"].map(
+            (text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton
+                  onClick={
+                    index % 3 === 0
+                      ? handleOpenMaps
+                      : index % 2 === 0
+                      ? handleAddExistingStationOpen
+                      : handleAddNewStationOpen
+                  }
+                >
+                  <ListItemText primary={text} />
+                </ListItemButton>
+
+                <AddExistingStationDialog
+                  open={openAddExistingStation}
+                  onClose={handleAddExistingStationClose}
+                />
+                <AddNewStationDialog
+                  open={openAddNewStation}
+                  onClose={handleAddNewStationClose}
+                />
+              </ListItem>
+            )
+          )}
         </List>
         <Divider />
         <List>

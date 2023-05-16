@@ -2,7 +2,9 @@
   display: flex;
   width: 100%;
   justify-content: center;
+  border: 1px solid black;
 }
 
-.wrapper {
+.dateRange {
+  border: 1px solid rgba(0, 0, 0, 0.259);
 }

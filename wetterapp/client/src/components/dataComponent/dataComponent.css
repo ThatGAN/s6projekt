@@ -19,6 +19,7 @@ p {
 
 h1 {
   font-size: 4rem;
+  margin-right: 2rem;
 }
 
 .writing {
@@ -33,7 +34,7 @@ h1 {
   width: 100%;
   height: 50%;
   position: relative;
-  background-color: rgba(6, 0, 61, 0.395);
+  background: linear-gradient(to top, #15608b, #00a1e0, #aad7fc, #15608b);
   display: flex;
 }
 
@@ -62,7 +63,7 @@ h1 {
 }
 
 .container {
-  max-width: auto;
+  width: 20rem;
   height: auto;
   margin: auto;
   padding: 0 1rem;
@@ -82,10 +83,18 @@ h1 {
 .app .description {
   position: relative;
   right: -90%;
-  top: 2rem;
-
+  top: 7rem;
   transform-origin: 0 0;
   transform: rotate(269deg);
+  padding-top: 0rem;
+}
+
+.app .time {
+  font-size: smaller;
+  position: relative;
+  right: -0%;
+  top: -1rem;
+  transform-origin: 0 0;
   padding-top: 0rem;
 }
 
@@ -96,8 +105,11 @@ h1 {
   width: 100%;
   margin: 1rem auto;
   padding: 1rem;
-  border-radius: 12px;
   /* background-color: rgba(71, 71, 255, 0.357); */
+}
+
+.location {
+  margin-left: -5%;
 }
 
 .bold {
