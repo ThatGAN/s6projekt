@@ -53,6 +53,12 @@ export const ChartsCombine = () => {
     },
   ]);
 
+  const [showComponentA, setShowComponentA] = useState(true);
+
+  const toggleComponent = () => {
+    setShowComponentA(!showComponentA);
+  };
+
   const location = useSelector(
     (state) => state.station.selectedStation.location
   );
@@ -182,10 +188,6 @@ export const ChartsCombine = () => {
     });
   };
 
-  const updateEntriesOnDateChange = () => {
-    updateEntries();
-  };
-
   /*
     1. StartDate und EndDate vom Rangepicker ans Backend übergeben und dort nur die gefilterten Einträge zurückgeben
     2. Sensordaten Preprocessing besser zusammenfassen
@@ -194,50 +196,100 @@ export const ChartsCombine = () => {
 
   let currentSelection;
 
+  const getCharts = () => {
+    return (
+      <Box xs={{ flexGrow: 1 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={sp}>
+            <TempChart dataFromParent={tempData}></TempChart>
+          </Grid>
+
+          <Grid item xs={sp}>
+            <HumidityChart dataFromParent={humidityData}></HumidityChart>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={sp}>
+            <LightsChart dataFromParent={lightsData}></LightsChart>
+          </Grid>
+
+          <Grid item xs={sp}>
+            <SoundChart dataFromParent={soundData}></SoundChart>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={sp}>
+            <PressureChart dataFromParent={pressureData}></PressureChart>
+          </Grid>
+
+          <Grid item xs={sp}></Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
   const getComponent = () => {
     switch (currentSelection) {
       case "normalHeader":
         return (
-          <Grid container spacing={3}>
-            <Grid item sx={6}>
-              <DateRangePicker
-                className="dateRange"
-                onChange={(item) => {
-                  setDate([item.selection]);
-                  console.log("STATE: ", date);
-                  // updateEntriesOnDateChange();
-                }}
-                showSelectionPreview={true}
-                retainEndDateOnFirstSelection={true}
-                // shownDate={(startOfMonth(new Date()), d)}
-                preventSnapRefocus={true}
-                months={2}
-                ranges={date}
-                direction="horizontal"
-                calendarFocus="forwards"
-              />
+          <>
+            <Grid container spacing={3}>
+              <Grid item sx={6}>
+                <DateRangePicker
+                  className="dateRange"
+                  onChange={(item) => {
+                    setDate([item.selection]);
+                    console.log("STATE: ", date);
+                    // updateEntriesOnDateChange();
+                  }}
+                  showSelectionPreview={true}
+                  retainEndDateOnFirstSelection={true}
+                  // shownDate={(startOfMonth(new Date()), d)}
+                  preventSnapRefocus={true}
+                  months={2}
+                  ranges={date}
+                  direction="horizontal"
+                  calendarFocus="forwards"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DataComponent dataFromParent={lastEntry}></DataComponent>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <DataComponent dataFromParent={lastEntry}></DataComponent>
-            </Grid>
-          </Grid>
+            {getCharts()}
+          </>
         );
       case "mobileHeader":
         return (
-          <div className="mobileHeader2">
-            <DateRange
-              editableDateInputs={true}
-              onChange={(item) => {
-                setDate([item.selection]);
-                console.log("STATE: ", date);
-                // updateEntriesOnDateChange();
-              }}
-              moveRangeOnFirstSelection={false}
-              ranges={date}
-              retainEndDateOnFirstSelection={true}
-              // style={{ position: "center" }}
-              // shownDate={(startOfMonth(new Date()), d)}
-            />
+          <div>
+            {showComponentA ? (
+              <DataComponent dataFromParent={lastEntry}></DataComponent>
+            ) : (
+              <div>
+                <div className="mobileHeader2">
+                  <DateRange
+                    editableDateInputs={true}
+                    onChange={(item) => {
+                      setDate([item.selection]);
+                      console.log("STATE: ", date);
+                      // updateEntriesOnDateChange();
+                    }}
+                    moveRangeOnFirstSelection={false}
+                    ranges={date}
+                    retainEndDateOnFirstSelection={true}
+                    // style={{ position: "center" }}
+                    // shownDate={(startOfMonth(new Date()), d)}
+                  />
+                </div>
+                <div> {getCharts()}</div>
+              </div>
+            )}
+            <button
+              style={{ position: "fixed", bottom: "10px", left: "10px" }}
+              onClick={toggleComponent}
+            >
+              Toggle Component
+            </button>
           </div>
         );
     }
@@ -257,7 +309,8 @@ export const ChartsCombine = () => {
     sp = 6;
     currentSelection = "normalHeader";
   }
-  return (
+
+  const Element = () => (
     <div>
       {entries.loading && <div>loading...</div>}
       {!entries.loading && entries.error ? (
@@ -265,37 +318,11 @@ export const ChartsCombine = () => {
       ) : null}
       {!entries.loading && tempData ? (
         <div className="wrapper">
-          {getComponent()}
           <Button onClick={updateEntries}>Reload</Button>
-          <Box xs={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={sp}>
-                <TempChart dataFromParent={tempData}></TempChart>
-              </Grid>
-
-              <Grid item xs={sp}>
-                <HumidityChart dataFromParent={humidityData}></HumidityChart>
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={sp}>
-                <LightsChart dataFromParent={lightsData}></LightsChart>
-              </Grid>
-
-              <Grid item xs={sp}>
-                <SoundChart dataFromParent={soundData}></SoundChart>
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={sp}>
-                <PressureChart dataFromParent={pressureData}></PressureChart>
-              </Grid>
-
-              <Grid item xs={sp}></Grid>
-            </Grid>
-          </Box>
+          {getComponent()}
         </div>
       ) : null}
     </div>
   );
+  return <Element></Element>;
 };

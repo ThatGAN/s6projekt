@@ -2,7 +2,8 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  border: 1px solid black;
+  border-top: 0.2px solid rgba(171, 171, 171, 0.777);
+  border-bottom: 0.2px solid rgba(171, 171, 171, 0.777);
 }
 
 .dateRange {
