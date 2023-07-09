@@ -31,53 +31,41 @@ export const OpenWeatherComponent = () => {
 
   return (
     <div className="app">
-      {/* <div className="search">
-        <input
-          value={location}
-          onChange={(event) => setLocation(event.target.value)}
-          onKeyPress={searchLocation}
-          placeholder="Enter Location"
-          type="text"
-        />
-      </div> */}
-      {/* <Button onClick={setInitLocation}>Reload Here</Button> */}
-      <div className="container">
-        <div className="top">
-          <div className="location">
-            <p>{data.name}</p>
-          </div>
-          <div className="temp">
-            {data.main ? <h1>{data.main.temp.toFixed()}°C</h1> : null}
-          </div>
-          <div className="description">
-            {data.weather ? <p>{data.weather[0].description}</p> : null}
-          </div>
+      <div className="top">
+        <div className="location">
+          <p>{data.name}</p>
         </div>
+        <div className="temp">
+          {data.main ? <h1>{data.main.temp.toFixed()}°C</h1> : null}
+        </div>
+        <div className="description">
+          {data.weather ? <p>{data.weather[0].description}</p> : null}
+        </div>
+      </div>
 
-        {data.name !== undefined && (
-          <div className="bottom">
-            <div className="Data">
-              <p className="writing">Luftfeutchtigkeit:</p>
-              {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
-              <p className="writing">Lufdruck:</p>
-              {data.main ? (
-                <p className="bold">{data.main.pressure} hPa</p>
-              ) : null}
-              <p className="writing">Wind Geschwindigkeit:</p>
-              {data.wind ? (
-                <p className="bold">{data.wind.speed.toFixed()} KM/H</p>
-              ) : null}
-            </div>
-            <div>{data.weather.icon}</div>
-            <div className="wind">
-              {/* {data.wind ? (
+      {data.name !== undefined && (
+        <div className="bottom">
+          <div className="Data">
+            <p className="writing">Luftfeutchtigkeit:</p>
+            {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
+            <p className="writing">Lufdruck:</p>
+            {data.main ? (
+              <p className="bold">{data.main.pressure} hPa</p>
+            ) : null}
+            <p className="writing">Wind Geschwindigkeit:</p>
+            {data.wind ? (
+              <p className="bold">{data.wind.speed.toFixed()} KM/H</p>
+            ) : null}
+          </div>
+          <div>{data.weather.icon}</div>
+          <div className="wind">
+            {/* {data.wind ? (
                 <p className="bold">{data.wind.speed.toFixed()} KM/H</p>
               ) : null}
               <p className="writing">Wind Geschwindigkeit</p> */}
-            </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

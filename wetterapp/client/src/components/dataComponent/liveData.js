@@ -57,44 +57,32 @@ export const LiveData = (props) => {
 
   return (
     <div className="app">
-      {/* <div className="search">
-    <input
-      value={location}
-      onChange={(event) => setLocation(event.target.value)}
-      onKeyPress={searchLocation}
-      placeholder="Enter Location"
-      type="text"
-    />
-  </div> */}
-      {/* <Button onClick={setInitLocation}>Reload Here</Button> */}
-      <div className="container">
-        <div className="top">
-          <div className="location">
-            <p>{name}</p>
-          </div>
-          <div className="temp">
-            <h1>{data.temperature}°C</h1>
-          </div>
-          <div className="time">
-            <p>{formattedCreatedAt} Uhr</p>
-          </div>
+      <div className="top">
+        <div className="location">
+          <p>{name}</p>
         </div>
+        <div className="temp">
+          <h1>{data.temperature}°C</h1>
+        </div>
+        <div className="time">
+          <p>{formattedCreatedAt} Uhr</p>
+        </div>
+      </div>
 
-        <div className="bottom">
-          <div className="Data">
-            <p className="writing">Luftfeutchtigkeit:</p>
-            <p className="bold">{data.humidity}%</p>
-            <p className="writing">Lufdruck:</p>
-            <p className="bold">{data.pressure} hPa</p>
-            <p className="writing">Helligkeit</p>
-            <p className="bold">{data.illuminance}</p>
-          </div>
-          <div className="wind">
-            {/* {data.wind ? (
+      <div className="bottom">
+        <div className="Data">
+          <p className="writing">Luftfeutchtigkeit:</p>
+          <p className="bold">{data.humidity}%</p>
+          <p className="writing">Lufdruck:</p>
+          <p className="bold">{data.pressure} hPa</p>
+          <p className="writing">Helligkeit</p>
+          <p className="bold">{data.illuminance}</p>
+        </div>
+        <div className="wind">
+          {/* {data.wind ? (
             <p className="bold">{data.wind.speed.toFixed()} KM/H</p>
           ) : null}
           <p className="writing">Wind Geschwindigkeit</p> */}
-          </div>
         </div>
       </div>
     </div>

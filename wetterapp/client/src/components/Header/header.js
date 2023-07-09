@@ -172,7 +172,7 @@ export default function PersistentDrawerLeft() {
   const [dropdownStation, setDropdownStation] = useState("");
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", marginBottom: "5rem" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -301,9 +301,6 @@ export default function PersistentDrawerLeft() {
           )}
         </div>
       </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-      </Main>
     </Box>
   );
 }

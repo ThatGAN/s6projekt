@@ -8,4 +8,10 @@
 
 .dateRange {
   border: 1px solid rgba(0, 0, 0, 0.259);
+  margin-right: 0.5rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
 }

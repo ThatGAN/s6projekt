@@ -27,7 +27,8 @@ export const HumidityChart = (props) => {
         " " +
         tempCreatedAt.getHours() +
         ":" +
-        tempCreatedAt.getMinutes();
+        tempCreatedAt.getMinutes() +
+        " |";
 
       entry.formattedCreatedAt = formattedCreatedAt;
     });

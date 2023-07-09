@@ -11,11 +11,8 @@ import {
 } from "@syncfusion/ej2-react-charts";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import TempChart from "./components/Charts/tempChart.js";
 
-import { fetchEntries } from "../Slices/entrySlice.js";
-
-export const PressureChart = (props) => {
+export const GroundHumidityChart = (props) => {
   if (props.dataFromParent.entries?.length) {
     props.dataFromParent.entries.map((entry) => {
       const tempCreatedAt = new Date(entry.createdAt);
@@ -40,15 +37,17 @@ export const PressureChart = (props) => {
       ) : null}
       {!props.dataFromParent.loading && props.dataFromParent.entries ? (
         <ChartComponent
-          title="Luftdruck"
+          title="Bodenfeuchtigkeit"
           primaryXAxis={{ valueType: "Category", title: "Time" }}
-          primaryYAxis={{ title: "Luftdruck in pa", minimum: 90 }}
+          primaryYAxis={{ title: "Bodenfeuchtigkeit 0-30", minimum: 0 }}
           zoomSettings={{
             enableSelectionZooming: true,
             enablePan: false,
-            //enableScrollbar: true,
+            enableScrollbar: true,
             toolbarItems: ["ZoomIn", "ZoomOut", "Reset", "Pan"],
           }}
+          position="absolute"
+          size="auto"
           // margin={margin}
         >
           <Inject
@@ -59,7 +58,7 @@ export const PressureChart = (props) => {
               type="Line"
               dataSource={props.dataFromParent.entries}
               xName="formattedCreatedAt"
-              yName="pressure"
+              yName="groundHumidity"
               // marker={{ dataLabel: { visible: true }, visible: false }}
             ></SeriesDirective>
           </SeriesCollectionDirective>

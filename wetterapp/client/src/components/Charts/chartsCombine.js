@@ -3,8 +3,10 @@ import { HumidityChart } from "./humidityChart.js";
 import { LightsChart } from "./lightsChart.js";
 import { SoundChart } from "./soundChart.js";
 import { PressureChart } from "./pressureChart.js";
+import { GroundHumidityChart } from "./groundHumidityChart.js";
 
 import { Grid, Button } from "@mui/material";
+import TuneIcon from "@mui/icons-material/Tune";
 import Box from "@mui/material/Box";
 import "./chartsCombine.css";
 import { DataComponent } from "../dataComponent/dataComponent.js";
@@ -18,8 +20,6 @@ import { addDays } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { fetchEntries } from "../Slices/entrySlice.js";
-
-import { WeatherMap } from "../Maps/weatherMap.js";
 
 /*
 08.03
@@ -53,15 +53,17 @@ export const ChartsCombine = () => {
     },
   ]);
 
-  const [showComponentA, setShowComponentA] = useState(true);
+  const [showComponent, setShowComponent] = useState(true);
 
   const toggleComponent = () => {
-    setShowComponentA(!showComponentA);
+    setShowComponent(!showComponent);
   };
 
   const location = useSelector(
     (state) => state.station.selectedStation.location
   );
+
+  console.log("Here:", selectedStation.name);
 
   useEffect(
     () => {
@@ -197,6 +199,18 @@ export const ChartsCombine = () => {
   let currentSelection;
 
   const getCharts = () => {
+    const getChart = () => {
+      switch (selectedStation.name) {
+        case "UNO R-3":
+          return <SoundChart dataFromParent={soundData}></SoundChart>;
+        case "MKR NB 1500":
+          return (
+            <GroundHumidityChart
+              dataFromParent={groundHumidityData}
+            ></GroundHumidityChart>
+          );
+      }
+    };
     return (
       <Box xs={{ flexGrow: 1 }}>
         <Grid container spacing={3}>
@@ -214,7 +228,7 @@ export const ChartsCombine = () => {
           </Grid>
 
           <Grid item xs={sp}>
-            <SoundChart dataFromParent={soundData}></SoundChart>
+            {getChart()};
           </Grid>
         </Grid>
         <Grid container spacing={3}>
@@ -233,14 +247,13 @@ export const ChartsCombine = () => {
       case "normalHeader":
         return (
           <>
-            <Grid container spacing={3}>
-              <Grid item sx={6}>
+            <div className="flex-container">
+              <div style={{ flex: 1 }}>
                 <DateRangePicker
                   className="dateRange"
                   onChange={(item) => {
                     setDate([item.selection]);
                     console.log("STATE: ", date);
-                    // updateEntriesOnDateChange();
                   }}
                   showSelectionPreview={true}
                   retainEndDateOnFirstSelection={true}
@@ -251,18 +264,18 @@ export const ChartsCombine = () => {
                   direction="horizontal"
                   calendarFocus="forwards"
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <DataComponent dataFromParent={lastEntry}></DataComponent>
-              </Grid>
-            </Grid>
+              </div>
+              <div style={{ flex: 1 }}>
+                <DataComponent dataFromParent={lastEntry} />
+              </div>
+            </div>
             {getCharts()}
           </>
         );
       case "mobileHeader":
         return (
-          <div>
-            {showComponentA ? (
+          <div className="test2">
+            {showComponent ? (
               <DataComponent dataFromParent={lastEntry}></DataComponent>
             ) : (
               <div>
@@ -284,12 +297,19 @@ export const ChartsCombine = () => {
                 <div> {getCharts()}</div>
               </div>
             )}
-            <button
-              style={{ position: "fixed", bottom: "10px", left: "10px" }}
+
+            <TuneIcon
+              style={{
+                position: "fixed",
+                bottom: "10px",
+                left: "10px",
+                borderRadius: "25px",
+                backgroundColor: "RoyalBlue",
+                color: "black",
+              }}
+              fontSize="medium"
               onClick={toggleComponent}
-            >
-              Toggle Component
-            </button>
+            />
           </div>
         );
     }
@@ -311,16 +331,13 @@ export const ChartsCombine = () => {
   }
 
   const Element = () => (
-    <div>
+    <div className="element">
       {entries.loading && <div>loading...</div>}
       {!entries.loading && entries.error ? (
         <div>Error: {entries.error}</div>
       ) : null}
       {!entries.loading && tempData ? (
-        <div className="wrapper">
-          <Button onClick={updateEntries}>Reload</Button>
-          {getComponent()}
-        </div>
+        <div className="wrapper">{getComponent()}</div>
       ) : null}
     </div>
   );
