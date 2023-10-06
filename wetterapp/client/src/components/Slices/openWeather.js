@@ -18,7 +18,6 @@ export const fetchOpenWeather = createAsyncThunk(
   "/openWeatherData/getData",
   (location) => {
     var data = [];
-    console.log(location);
     return axios
       .post("http://localhost:5000/openWeatherData/getData", {
         location: location,

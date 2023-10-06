@@ -117,7 +117,6 @@ export default function PersistentDrawerLeft() {
 
   const getStations = () => {
     dispatch(fetchStations()).then((res) => {
-      console.log("payload:", res.payload);
       const stationsData = res.payload;
       setStations(stationsData);
       setDropdownStation(res.payload[0]);
@@ -133,7 +132,6 @@ export default function PersistentDrawerLeft() {
 
   const handleChange = (event) => {
     dispatch(selectStation(event.target.value));
-    console.log("hereNow:", event.target.value);
     setDropdownStation(event.target.value);
     localStorage.setItem(
       "location",

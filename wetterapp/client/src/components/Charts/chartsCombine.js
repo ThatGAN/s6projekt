@@ -34,6 +34,7 @@ export const ChartsCombine = () => {
   const dispatch = useDispatch();
 
   let entries = useSelector((state) => state.entry);
+  console.log("Start:", entries);
   const [tempData, setTempData] = useState({});
   const [humidityData, setHumidityData] = useState({});
   const [lightsData, setLightsData] = useState({});
@@ -42,9 +43,12 @@ export const ChartsCombine = () => {
   const [groundHumidityData, setGroundHumidityData] = useState({});
   const [lastEntry, setLastEntry] = useState({});
 
-  let selectedStation = useSelector((state) => state.station.selectedStation);
-  console.log("Selected Station:", selectedStation);
+  console.log(
+    "entry:",
+    useSelector((state) => state.entry)
+  );
 
+  let selectedStation = useSelector((state) => state.station.selectedStation);
   const [date, setDate] = useState([
     {
       startDate: addDays(new Date(), -7),
@@ -63,33 +67,22 @@ export const ChartsCombine = () => {
     (state) => state.station.selectedStation.location
   );
 
-  console.log("Here:", selectedStation.name);
-
-  useEffect(
-    () => {
-      updateEntries();
-      console.log("Date:", date[0].endDate);
-    },
-    [date[0].endDate, location],
-    []
-  );
+  useEffect(() => {
+    updateEntries();
+  }, [date[0].endDate, location]);
 
   const updateEntries = () => {
     console.log("CALLED UPDATE!");
-    console.log("here", selectedStation._id);
 
     dispatch(fetchEntries(selectedStation._id)).then((res) => {
-      console.log("payload: ", res.payload);
       var startDate = new Date(date[0].startDate - 7);
-      // startDate.setDate(startDate.getDate() - 1);
       var endDate = new Date(date[0].endDate);
-      console.log("start date: ", startDate);
-      console.log("end date: ", endDate);
+
+      console.log("entries:", entries);
 
       const lastEntryPayload = res.payload[res.payload.length - 1];
 
       res.payload = res.payload.filter((entry) => {
-        // console.log("entry: ", entry);
         const entryDate = new Date(entry.createdAt);
         if (entryDate > startDate && entryDate < endDate) return true;
         else return false;
@@ -103,7 +96,6 @@ export const ChartsCombine = () => {
         };
         return obj;
       });
-      console.log("Formatted:", formattedEntries);
 
       let formattedEntriesHumidity = res.payload.map((val) => {
         let obj = {
@@ -151,32 +143,32 @@ export const ChartsCombine = () => {
       });
 
       let td = {
-        loading: entries.loading,
+        // loading: entries.loading,
         error: entries.error,
         entries: formattedEntries,
       };
       let hd = {
-        loading: entries.loading,
+        // loading: entries.loading,
         error: entries.error,
         entries: formattedEntriesHumidity,
       };
       let ld = {
-        loading: entries.loading,
+        // loading: entries.loading,
         error: entries.error,
         entries: formattedEntriesLights,
       };
       let sd = {
-        loading: entries.loading,
+        // loading: entries.loading,
         error: entries.error,
         entries: formattedEntriesSound,
       };
       let pd = {
-        loading: entries.loading,
+        // loading: entries.loading,
         error: entries.error,
         entries: formattedEntriesPressure,
       };
       let ghd = {
-        loading: entries.loading,
+        // loading: entries.loading,
         error: entries.error,
         entries: formattedEntriesGroundHumidity,
       };
@@ -190,13 +182,7 @@ export const ChartsCombine = () => {
     });
   };
 
-  /*
-    1. StartDate und EndDate vom Rangepicker ans Backend übergeben und dort nur die gefilterten Einträge zurückgeben
-    2. Sensordaten Preprocessing besser zusammenfassen
-    3. Date Umwandlung zentral anlegen
-  */
-
-  let currentSelection;
+  let currentScreenSize;
 
   const getCharts = () => {
     const getChart = () => {
@@ -212,38 +198,48 @@ export const ChartsCombine = () => {
       }
     };
     return (
-      <Box xs={{ flexGrow: 1 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={sp}>
-            <TempChart dataFromParent={tempData}></TempChart>
-          </Grid>
+      <div>
+        {entries.loading && <div>loading...</div>}
+        {!entries.loading && entries.error ? (
+          <div>Error: {entries.error}</div>
+        ) : null}
+        {!entries.loading && tempData ? (
+          <div className="wrapper">
+            <Box xs={{ flexGrow: 1 }}>
+              <Grid container spacing={3}>
+                <Grid item xs={sp}>
+                  <TempChart dataFromParent={tempData}></TempChart>
+                </Grid>
 
-          <Grid item xs={sp}>
-            <HumidityChart dataFromParent={humidityData}></HumidityChart>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={sp}>
-            <LightsChart dataFromParent={lightsData}></LightsChart>
-          </Grid>
+                <Grid item xs={sp}>
+                  <HumidityChart dataFromParent={humidityData}></HumidityChart>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={sp}>
+                  <LightsChart dataFromParent={lightsData}></LightsChart>
+                </Grid>
 
-          <Grid item xs={sp}>
-            {getChart()};
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={sp}>
-            <PressureChart dataFromParent={pressureData}></PressureChart>
-          </Grid>
+                <Grid item xs={sp}>
+                  {getChart()}
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={sp}>
+                  <PressureChart dataFromParent={pressureData}></PressureChart>
+                </Grid>
 
-          <Grid item xs={sp}></Grid>
-        </Grid>
-      </Box>
+                <Grid item xs={sp}></Grid>
+              </Grid>
+            </Box>
+          </div>
+        ) : null}
+      </div>
     );
   };
 
   const getComponent = () => {
-    switch (currentSelection) {
+    switch (currentScreenSize) {
       case "normalHeader":
         return (
           <>
@@ -253,7 +249,6 @@ export const ChartsCombine = () => {
                   className="dateRange"
                   onChange={(item) => {
                     setDate([item.selection]);
-                    console.log("STATE: ", date);
                   }}
                   showSelectionPreview={true}
                   retainEndDateOnFirstSelection={true}
@@ -284,7 +279,6 @@ export const ChartsCombine = () => {
                     editableDateInputs={true}
                     onChange={(item) => {
                       setDate([item.selection]);
-                      console.log("STATE: ", date);
                       // updateEntriesOnDateChange();
                     }}
                     moveRangeOnFirstSelection={false}
@@ -315,19 +309,15 @@ export const ChartsCombine = () => {
     }
   };
 
-  // let d = new Date();
-
-  // console.log("Date: ", d);
-
   let sp;
 
   var x = window.matchMedia("(max-width: 700px)");
   if (x.matches) {
     sp = 12;
-    currentSelection = "mobileHeader";
+    currentScreenSize = "mobileHeader";
   } else {
     sp = 6;
-    currentSelection = "normalHeader";
+    currentScreenSize = "normalHeader";
   }
 
   const Element = () => (

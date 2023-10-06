@@ -27,6 +27,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "react": "^18.2.0",
+    "react-custom-scrollbars": "^4.2.1",
     "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",

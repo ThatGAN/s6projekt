@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import logo from "./assets/ezgif.com-resize.gif";
 import pic from "./assets/IMG_20230116_094221.jpg";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import "./App.css";
 
@@ -26,8 +27,13 @@ function App() {
           <div className="large-box">
             <h2>Willkommen</h2>
             <div className="inner-box">
-              <img className="pic" src={pic} alt="loading..."></img>
-              <p style={{ fontSize: "1rem" }}>Das ist die Station</p>
+              <Scrollbars style={{ height: CurrentSize }}>
+                <img className="pic" src={pic} alt="loading..."></img>
+                <p style={{ fontSize: "1rem" }}>
+                  Um die Station für einen Account zu regrisrieren befolgen Sie
+                  die 3 Schritte{" "}
+                </p>
+              </Scrollbars>
             </div>
 
             <div className="bottom-section">
@@ -52,6 +58,15 @@ function App() {
       )}
     </>
   );
+}
+
+let CurrentSize;
+
+var x = window.matchMedia("(max-width: 600px)");
+if (x.matches) {
+  CurrentSize = 450;
+} else {
+  CurrentSize = 600;
 }
 
 export default App;

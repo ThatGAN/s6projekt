@@ -24,7 +24,7 @@ const Routs = () => {
       <Routes>
         <Route exact path="/" element={<App />}></Route>
         <Route exact path="/auth" element={<Auth />} />
-        <Route exact path="/maps" element={<MapComponent />} />
+        {/* <Route exact path="/maps" element={<MapComponent />} /> */}
       </Routes>
     </Router>
   );

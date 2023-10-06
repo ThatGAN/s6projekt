@@ -28,6 +28,7 @@ export const TempChart = (props) => {
       entry.formattedCreatedAt = formattedCreatedAt;
     });
   }
+  console.log("loading", props.dataFromParent.loading);
 
   return (
     <div>

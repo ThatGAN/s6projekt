@@ -16,7 +16,6 @@ export const OpenWeatherComponent = () => {
   const location = useSelector(
     (state) => state.station.selectedStation.location
   );
-  console.log("Location:", location);
 
   useEffect(() => {
     setInitLocation();
@@ -24,7 +23,6 @@ export const OpenWeatherComponent = () => {
 
   const setInitLocation = () => {
     dispatch(fetchOpenWeather(location)).then((res) => {
-      console.log("openWeatherPayload: ", res.payload);
       setData(res.payload);
     });
   };

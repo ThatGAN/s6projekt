@@ -35,11 +35,6 @@ export const LightsChart = (props) => {
     });
   }
 
-  // console.log("CreatedAt:", createdAtOrg);
-  // createdAtOrg = createdAtOrg.getDate() + "." + createdAt.getMonth();
-
-  // console.log("Split", createdAtOrg.toISOString().split("T")[1].split(".")[0]);
-
   return (
     <div>
       {props.dataFromParent.loading && <div>loading...</div>}

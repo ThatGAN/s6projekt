@@ -60,7 +60,7 @@ h1 {
 
 .app .description {
   position: relative;
-  right: -90%;
+  right: -80%;
   top: 7rem;
   transform-origin: 0 0;
   transform: rotate(269deg);

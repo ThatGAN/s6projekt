@@ -7,10 +7,7 @@ import { format } from "date-fns";
 import moment from "moment-timezone";
 
 export const LiveData = (props) => {
-  console.log("Data here:", props.dataFromParent);
-
   const data = props.dataFromParent;
-  console.log(data);
 
   if (data.createdAt) {
     var tempCreatedAt = new Date(data.createdAt);
@@ -27,16 +24,10 @@ export const LiveData = (props) => {
     tempCreatedAt.getUTCSeconds()
   );
 
-  console.log("Here:", new Date(now_utc));
-
   const utcDateString = tempCreatedAt.toISOString();
-
-  console.log("And here:", utcDateString);
 
   var timezoneOffset = new Date().getTimezoneOffset();
 
-  console.log("Offset:", timezoneOffset);
-  console.log("Hour:", tempCreatedAt.getHours());
   // Adjust the hours to the local timezone, accounting for DST changes
   tempCreatedAt.setHours(tempCreatedAt.getHours() + timezoneOffset / 60);
   var localMonth = tempCreatedAt.getUTCMonth() + 1;
@@ -50,8 +41,6 @@ export const LiveData = (props) => {
     tempCreatedAt.getHours().toString().padStart(2, "0") +
     ":" +
     tempCreatedAt.getMinutes().toString().padStart(2, "0");
-
-  console.log(formattedCreatedAt);
 
   const name = useSelector((state) => state.station.selectedStation.name);
 
