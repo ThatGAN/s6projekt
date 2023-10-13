@@ -1,5 +1,5 @@
-// import WeatherMap from "./weatherMap";
+import WeatherMap from "./weatherMap";
 
-// export const MapComponent = () => {
-//   // return <WeatherMap></WeatherMap>;
-// };
+export const MapComponent = () => {
+  return <WeatherMap></WeatherMap>;
+};

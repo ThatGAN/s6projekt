@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0",
     "nodemon": "^2.0.15",
+    "react-leaflet": "^4.2.1",
     "response": "^0.18.0",
     "response-cookie": "^0.0.2"
   }

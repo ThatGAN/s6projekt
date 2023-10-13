@@ -82,11 +82,16 @@ export const ChartsCombine = () => {
 
       const lastEntryPayload = res.payload[res.payload.length - 1];
 
-      res.payload = res.payload.filter((entry) => {
-        const entryDate = new Date(entry.createdAt);
-        if (entryDate > startDate && entryDate < endDate) return true;
-        else return false;
-      });
+      try {
+        res.payload = res.payload.filter((entry) => {
+          const entryDate = new Date(entry.createdAt);
+          if (entryDate > startDate && entryDate < endDate) return true;
+          else return false;
+        });
+      } catch (error) {
+        console.log("ERROR:", error);
+        return error;
+      }
 
       let formattedEntries = res.payload.map((val) => {
         let obj = {

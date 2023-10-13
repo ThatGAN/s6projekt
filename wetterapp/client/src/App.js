@@ -31,7 +31,7 @@ function App() {
                 <img className="pic" src={pic} alt="loading..."></img>
                 <p style={{ fontSize: "1rem" }}>
                   Um die Station für einen Account zu regrisrieren befolgen Sie
-                  die 3 Schritte{" "}
+                  die folgenden 3 Schritte:
                 </p>
               </Scrollbars>
             </div>
