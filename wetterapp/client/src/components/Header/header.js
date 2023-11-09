@@ -94,8 +94,7 @@ export default function PersistentDrawerLeft() {
   const [openAddExistingStation, setOpenAddExistingStation] =
     React.useState(false);
   const [openAddNewStation, setOpenaddNewStation] = React.useState(false);
-  const [station, setStation] = React.useState("");
-
+  const [dropdownStation, setDropdownStation] = useState("");
   const [stations, setStations] = React.useState([
     {
       location: "",
@@ -118,9 +117,12 @@ export default function PersistentDrawerLeft() {
   const getStations = () => {
     dispatch(fetchStations()).then((res) => {
       const stationsData = res.payload;
-      setStations(stationsData);
-      setDropdownStation(res.payload[0]);
-      dispatch(selectStation(res.payload[0]));
+      if (!stationsData) return;
+      else {
+        setStations(stationsData);
+        setDropdownStation(res.payload[0]);
+        dispatch(selectStation(res.payload[0]));
+      }
     });
   };
 
@@ -159,6 +161,9 @@ export default function PersistentDrawerLeft() {
     navigate("/maps");
   };
 
+  const handleOpenCharts = () => {
+    navigate("/");
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -166,8 +171,6 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const [dropdownStation, setDropdownStation] = useState("");
 
   return (
     <Box sx={{ display: "flex", marginBottom: "5rem" }}>
@@ -234,16 +237,18 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Maps", "Add new Station", "Add existing Station"].map(
+          {["Maps", "Charts", "Add new Station", "Add existing Station"].map(
             (text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton
                   onClick={
-                    index % 3 === 0
+                    index % 4 === 0
                       ? handleOpenMaps
-                      : index % 2 === 0
+                      : index % 3 === 0
                       ? handleAddExistingStationOpen
-                      : handleAddNewStationOpen
+                      : index % 2 === 0
+                      ? handleAddNewStationOpen
+                      : handleOpenCharts
                   }
                 >
                   <ListItemText primary={text} />

@@ -34,7 +34,6 @@ export const ChartsCombine = () => {
   const dispatch = useDispatch();
 
   let entries = useSelector((state) => state.entry);
-  console.log("Start:", entries);
   const [tempData, setTempData] = useState({});
   const [humidityData, setHumidityData] = useState({});
   const [lightsData, setLightsData] = useState({});
@@ -49,6 +48,9 @@ export const ChartsCombine = () => {
   );
 
   let selectedStation = useSelector((state) => state.station.selectedStation);
+
+  console.log("Station:", selectedStation);
+
   const [date, setDate] = useState([
     {
       startDate: addDays(new Date(), -7),
@@ -56,6 +58,8 @@ export const ChartsCombine = () => {
       key: "selection",
     },
   ]);
+
+  console.log("DateObject:", typeof date);
 
   const [showComponent, setShowComponent] = useState(true);
 
@@ -71,14 +75,15 @@ export const ChartsCombine = () => {
     updateEntries();
   }, [date[0].endDate, location]);
 
-  const updateEntries = () => {
-    console.log("CALLED UPDATE!");
+  const objectToPass = [selectedStation._id, date];
+  console.log(objectToPass);
 
-    dispatch(fetchEntries(selectedStation._id)).then((res) => {
+  const updateEntries = () => {
+    dispatch(fetchEntries(objectToPass)).then((res) => {
       var startDate = new Date(date[0].startDate - 7);
       var endDate = new Date(date[0].endDate);
 
-      console.log("entries:", entries);
+      console.log(res.payload);
 
       const lastEntryPayload = res.payload[res.payload.length - 1];
 
@@ -190,7 +195,7 @@ export const ChartsCombine = () => {
   let currentScreenSize;
 
   const getCharts = () => {
-    const getChart = () => {
+    const getChartDependingOnStation = () => {
       switch (selectedStation.name) {
         case "UNO R-3":
           return <SoundChart dataFromParent={soundData}></SoundChart>;
@@ -202,6 +207,7 @@ export const ChartsCombine = () => {
           );
       }
     };
+
     return (
       <div>
         {entries.loading && <div>loading...</div>}
@@ -226,7 +232,7 @@ export const ChartsCombine = () => {
                 </Grid>
 
                 <Grid item xs={sp}>
-                  {getChart()}
+                  {getChartDependingOnStation()}
                 </Grid>
               </Grid>
               <Grid container spacing={3}>
@@ -303,8 +309,8 @@ export const ChartsCombine = () => {
                 bottom: "10px",
                 left: "10px",
                 borderRadius: "25px",
-                backgroundColor: "RoyalBlue",
-                color: "black",
+                backgroundColor: "Blue",
+                color: "white",
               }}
               fontSize="medium"
               onClick={toggleComponent}

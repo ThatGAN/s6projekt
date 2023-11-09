@@ -10,12 +10,17 @@ const initialState = {
 };
 
 export const fetchEntries = createAsyncThunk(
-  "/entry/allById",
-  (selectedStation) => {
-    const stationIds = selectedStation;
+  "/entry/allByIdAndDate",
+  (passedObject) => {
+    const stationIds = passedObject[0];
+    const dateArray = passedObject[1];
+    console.log("Date", dateArray);
     var data = [];
     return axios
-      .post("http://localhost:5000/entry/allById", { stationId: stationIds })
+      .post("http://localhost:5000/entry/allByIdAndDate", {
+        stationId: stationIds,
+        date: dateArray,
+      })
       .then((response) => {
         return response.data;
       });
