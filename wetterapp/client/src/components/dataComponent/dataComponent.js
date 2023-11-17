@@ -11,7 +11,7 @@ export const DataComponent = (props) => {
       {user?.result ? (
         <div className="app-container">
           <Card sx={{ borderRadius: "0%" }} className="liveData">
-            <LiveData dataFromParent={props.dataFromParent}></LiveData>
+            <LiveData></LiveData>
           </Card>
 
           <Card sx={{ borderRadius: "0%" }} className="openWeather">

@@ -19,7 +19,7 @@ import { addDays } from "date-fns";
 
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { fetchEntries } from "../Slices/entrySlice.js";
+import { fetchEntries, fetchSingleEntry } from "../Slices/entrySlice.js";
 
 /*
 08.03
@@ -59,8 +59,6 @@ export const ChartsCombine = () => {
     },
   ]);
 
-  console.log("DateObject:", typeof date);
-
   const [showComponent, setShowComponent] = useState(true);
 
   const toggleComponent = () => {
@@ -72,18 +70,127 @@ export const ChartsCombine = () => {
   );
 
   useEffect(() => {
-    updateEntries();
+    dataDispatch();
   }, [date[0].endDate, location]);
 
   const objectToPass = [selectedStation._id, date];
   console.log(objectToPass);
 
+  const dataDispatch = () => {
+    console.log("ObjectToPass:", objectToPass);
+
+    dispatch(fetchEntries(objectToPass)).then((res) => {
+      console.log("Payload:", res.payload);
+
+      function checkLength(length) {
+        console.log(length);
+        if (length > 0) return true;
+      }
+
+      if (checkLength(res.payload.length) == true) {
+        console.log("here:", res.payload.length);
+        let formattedEntries = res.payload.map((val) => {
+          let obj = {
+            _id: val._id,
+            temp: val.temperature,
+            createdAt: val.createdAt,
+          };
+          return obj;
+        });
+
+        let formattedEntriesHumidity = res.payload.map((val) => {
+          let obj = {
+            _id: val._id,
+            humidity: val.humidity,
+            createdAt: val.createdAt,
+          };
+          return obj;
+        });
+
+        let formattedEntriesLights = res.payload.map((val) => {
+          let obj = {
+            _id: val._id,
+            lights: val.illuminance,
+            createdAt: val.createdAt,
+          };
+          return obj;
+        });
+
+        let formattedEntriesSound = res.payload.map((val) => {
+          let obj = {
+            _id: val._id,
+            sound: val.sound,
+            createdAt: val.createdAt,
+          };
+          return obj;
+        });
+
+        let formattedEntriesPressure = res.payload.map((val) => {
+          let obj = {
+            _id: val._id,
+            pressure: val.pressure,
+            createdAt: val.createdAt,
+          };
+          return obj;
+        });
+
+        let formattedEntriesGroundHumidity = res.payload.map((val) => {
+          let obj = {
+            _id: val._id,
+            groundHumidity: val.groundHumidity,
+            createdAt: val.createdAt,
+          };
+          return obj;
+        });
+
+        let td = {
+          // loading: entries.loading,
+          error: entries.error,
+          entries: formattedEntries,
+        };
+        let hd = {
+          // loading: entries.loading,
+          error: entries.error,
+          entries: formattedEntriesHumidity,
+        };
+        let ld = {
+          // loading: entries.loading,
+          error: entries.error,
+          entries: formattedEntriesLights,
+        };
+        let sd = {
+          // loading: entries.loading,
+          error: entries.error,
+          entries: formattedEntriesSound,
+        };
+        let pd = {
+          // loading: entries.loading,
+          error: entries.error,
+          entries: formattedEntriesPressure,
+        };
+        let ghd = {
+          // loading: entries.loading,
+          error: entries.error,
+          entries: formattedEntriesGroundHumidity,
+        };
+        //setLastEntry(lastEntryPayload);
+        setTempData(td);
+        setHumidityData(hd);
+        setLightsData(ld);
+        setSoundData(sd);
+        setPressureData(pd);
+        setGroundHumidityData(ghd);
+      } else console.log("Nope");
+    });
+  };
+
   const updateEntries = () => {
+    //Old Version of data fetch
     dispatch(fetchEntries(objectToPass)).then((res) => {
       var startDate = new Date(date[0].startDate - 7);
       var endDate = new Date(date[0].endDate);
 
-      console.log(res.payload);
+      console.log("Here:", res.payload);
 
       const lastEntryPayload = res.payload[res.payload.length - 1];
 

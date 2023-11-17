@@ -62,21 +62,21 @@ const allById = async (req, res) => {
 const allByIdAndDate = async (req, res) => {
   try {
     stationId = req.body.stationId;
-    date = req.body.date;
-    console.log("here:", date);
+    var date = req.body.date;
     const total = await stationEntries.countDocuments({});
     console.log("count: ", total);
 
-    var thisas = new Date(date[0].startDate);
-
-    console.log("Check:", thisas);
+    var sDate = new Date(date[0].startDate);
+    var eDate = new Date(date[0].endDate);
+    var a = sDate.toISOString();
+    var b = eDate.toISOString();
 
     entry = stationEntries.find(
       {
         station_id: { $in: stationId },
         createdAt: {
-          $gte: new Date(date[0].startDate),
-          $lte: new Date(date[0].endDate),
+          $gte: a,
+          $lte: b,
         },
       },
       (err, docs) => {
@@ -84,7 +84,7 @@ const allByIdAndDate = async (req, res) => {
           console.log("error");
           res.send({ msg: "no Config Item found(undefined)" });
         } else if (docs.length) {
-          console.log("Sucess:");
+          console.log("Sucess!");
           res.status(201).send(docs);
         } else {
           console.log("no Config Item found!");
@@ -98,8 +98,26 @@ const allByIdAndDate = async (req, res) => {
 };
 
 const lastEntryAndById = async (req, res) => {
+  stationId = req.body.stationId;
   try {
-  } catch (error) {}
+    entry = stationEntries
+      .find({ station_id: { $in: stationId } }, (err, docs) => {
+        if (err) {
+          console.log("error");
+          res.send({ msg: "no Config Item found(undefined)" });
+        } else if (docs.length) {
+          console.log("Sucess!!!!");
+          res.status(201).send(docs);
+        } else {
+          console.log("no Config Item found!!");
+          res.send({ msg: "no Config Item found" });
+        }
+      })
+      .sort({ _id: -1 })
+      .limit(1);
+  } catch (error) {
+    docs.status(404).json({ message: error.message });
+  }
 };
 
 module.exports = {

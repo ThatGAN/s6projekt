@@ -7,7 +7,7 @@ const stationEntriesSchema = mongoose.Schema({
   lights: { type: Number },
   sound: { type: Number },
   pressure: { type: Number },
-  createdAt: { type: String },
+  createdAt: { type: Date },
   station_id: { type: String },
 });
 

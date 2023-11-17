@@ -1,7 +1,5 @@
 import { createAsyncThunk, createThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import React, { useEffect, useState } from "react";
 
 const initialState = {
   loading: false,
@@ -22,6 +20,24 @@ export const fetchEntries = createAsyncThunk(
         date: dateArray,
       })
       .then((response) => {
+        console.log("Data", response.data);
+        return response.data;
+      });
+  }
+);
+
+export const fetchSingleEntry = createAsyncThunk(
+  "/entry/lastEntryAndById",
+  (stationId) => {
+    const stationIds = stationId;
+    console.log(stationIds);
+    var data = [];
+    return axios
+      .post("http://localhost:5000/entry/lastEntryAndById", {
+        stationId: stationIds,
+      })
+      .then((response) => {
+        console.log("Data:", response.data);
         return response.data;
       });
   }
