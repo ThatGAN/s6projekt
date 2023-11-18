@@ -19,7 +19,6 @@ export const LiveData = () => {
     });
   }, []);
   const data = state;
-  console.log("H:", data);
 
   const loadData = (data) => {
     if (data.createdAt) {

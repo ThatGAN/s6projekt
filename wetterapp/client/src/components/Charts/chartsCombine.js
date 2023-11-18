@@ -34,6 +34,7 @@ export const ChartsCombine = () => {
   const dispatch = useDispatch();
 
   let entries = useSelector((state) => state.entry);
+  const [state, setState] = useState();
   const [tempData, setTempData] = useState({});
   const [humidityData, setHumidityData] = useState({});
   const [lightsData, setLightsData] = useState({});
@@ -70,118 +71,114 @@ export const ChartsCombine = () => {
   );
 
   useEffect(() => {
+    console.log(date);
     dataDispatch();
   }, [date[0].endDate, location]);
 
   const objectToPass = [selectedStation._id, date];
-  console.log(objectToPass);
 
   const dataDispatch = () => {
-    console.log("ObjectToPass:", objectToPass);
+    try {
+      dispatch(fetchEntries(objectToPass)).then((res) => {
+        if (res.payload.length > 0) {
+          let formattedEntries = res.payload.map((val) => {
+            let obj = {
+              _id: val._id,
+              temp: val.temperature,
+              createdAt: val.createdAt,
+            };
+            return obj;
+          });
 
-    dispatch(fetchEntries(objectToPass)).then((res) => {
-      console.log("Payload:", res.payload);
+          let formattedEntriesHumidity = res.payload.map((val) => {
+            let obj = {
+              _id: val._id,
+              humidity: val.humidity,
+              createdAt: val.createdAt,
+            };
+            return obj;
+          });
 
-      function checkLength(length) {
-        console.log(length);
-        if (length > 0) return true;
-      }
+          let formattedEntriesLights = res.payload.map((val) => {
+            let obj = {
+              _id: val._id,
+              lights: val.illuminance,
+              createdAt: val.createdAt,
+            };
+            return obj;
+          });
 
-      if (checkLength(res.payload.length) == true) {
-        console.log("here:", res.payload.length);
-        let formattedEntries = res.payload.map((val) => {
-          let obj = {
-            _id: val._id,
-            temp: val.temperature,
-            createdAt: val.createdAt,
+          let formattedEntriesSound = res.payload.map((val) => {
+            let obj = {
+              _id: val._id,
+              sound: val.sound,
+              createdAt: val.createdAt,
+            };
+            return obj;
+          });
+
+          let formattedEntriesPressure = res.payload.map((val) => {
+            let obj = {
+              _id: val._id,
+              pressure: val.pressure,
+              createdAt: val.createdAt,
+            };
+            return obj;
+          });
+
+          let formattedEntriesGroundHumidity = res.payload.map((val) => {
+            let obj = {
+              _id: val._id,
+              groundHumidity: val.groundHumidity,
+              createdAt: val.createdAt,
+            };
+            return obj;
+          });
+
+          let td = {
+            // loading: entries.loading,
+            error: entries.error,
+            entries: formattedEntries,
           };
-          return obj;
-        });
-
-        let formattedEntriesHumidity = res.payload.map((val) => {
-          let obj = {
-            _id: val._id,
-            humidity: val.humidity,
-            createdAt: val.createdAt,
+          let hd = {
+            // loading: entries.loading,
+            error: entries.error,
+            entries: formattedEntriesHumidity,
           };
-          return obj;
-        });
-
-        let formattedEntriesLights = res.payload.map((val) => {
-          let obj = {
-            _id: val._id,
-            lights: val.illuminance,
-            createdAt: val.createdAt,
+          let ld = {
+            // loading: entries.loading,
+            error: entries.error,
+            entries: formattedEntriesLights,
           };
-          return obj;
-        });
-
-        let formattedEntriesSound = res.payload.map((val) => {
-          let obj = {
-            _id: val._id,
-            sound: val.sound,
-            createdAt: val.createdAt,
+          let sd = {
+            // loading: entries.loading,
+            error: entries.error,
+            entries: formattedEntriesSound,
           };
-          return obj;
-        });
-
-        let formattedEntriesPressure = res.payload.map((val) => {
-          let obj = {
-            _id: val._id,
-            pressure: val.pressure,
-            createdAt: val.createdAt,
+          let pd = {
+            // loading: entries.loading,
+            error: entries.error,
+            entries: formattedEntriesPressure,
           };
-          return obj;
-        });
-
-        let formattedEntriesGroundHumidity = res.payload.map((val) => {
-          let obj = {
-            _id: val._id,
-            groundHumidity: val.groundHumidity,
-            createdAt: val.createdAt,
+          let ghd = {
+            // loading: entries.loading,
+            error: entries.error,
+            entries: formattedEntriesGroundHumidity,
           };
-          return obj;
-        });
-
-        let td = {
-          // loading: entries.loading,
-          error: entries.error,
-          entries: formattedEntries,
-        };
-        let hd = {
-          // loading: entries.loading,
-          error: entries.error,
-          entries: formattedEntriesHumidity,
-        };
-        let ld = {
-          // loading: entries.loading,
-          error: entries.error,
-          entries: formattedEntriesLights,
-        };
-        let sd = {
-          // loading: entries.loading,
-          error: entries.error,
-          entries: formattedEntriesSound,
-        };
-        let pd = {
-          // loading: entries.loading,
-          error: entries.error,
-          entries: formattedEntriesPressure,
-        };
-        let ghd = {
-          // loading: entries.loading,
-          error: entries.error,
-          entries: formattedEntriesGroundHumidity,
-        };
-        //setLastEntry(lastEntryPayload);
-        setTempData(td);
-        setHumidityData(hd);
-        setLightsData(ld);
-        setSoundData(sd);
-        setPressureData(pd);
-        setGroundHumidityData(ghd);
-      } else console.log("Nope");
-    });
+          //setLastEntry(lastEntryPayload);
+          setTempData(td);
+          setHumidityData(hd);
+          setLightsData(ld);
+          setSoundData(sd);
+          setPressureData(pd);
+          setGroundHumidityData(ghd);
+        } else {
+          console.log("Charts Error!", res.payload);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const updateEntries = () => {
@@ -314,7 +311,7 @@ export const ChartsCombine = () => {
           );
       }
     };
-
+    console.log(entries.loading);
     return (
       <div>
         {entries.loading && <div>loading...</div>}
@@ -372,10 +369,11 @@ export const ChartsCombine = () => {
                   retainEndDateOnFirstSelection={true}
                   // shownDate={(startOfMonth(new Date()), d)}
                   preventSnapRefocus={true}
+                  maxDate={new Date()}
                   months={2}
                   ranges={date}
                   direction="horizontal"
-                  calendarFocus="forwards"
+                  calendarFocus="backwards"
                 />
               </div>
               <div style={{ flex: 1 }}>
@@ -416,8 +414,8 @@ export const ChartsCombine = () => {
                 bottom: "10px",
                 left: "10px",
                 borderRadius: "25px",
-                backgroundColor: "Blue",
-                color: "white",
+                backgroundColor: "dodgerblue",
+                color: "silver",
               }}
               fontSize="medium"
               onClick={toggleComponent}

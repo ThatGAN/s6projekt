@@ -88,7 +88,7 @@ const allByIdAndDate = async (req, res) => {
           res.status(201).send(docs);
         } else {
           console.log("no Config Item found!");
-          res.send({ msg: "no Config Item found" });
+          res.send({ msg: "no Config Item found." });
         }
       }
     );

@@ -27,16 +27,6 @@ export const fetchStations = createAsyncThunk(
   }
 );
 
-// export const singleStation = createSlice({
-//   name: "singleStation",
-//   initialState: { value: initialStateValue },*
-//   reducers: {
-//     getData: (state, action) => {
-//       state.value = action.payload;
-//     },
-//   },
-// });
-
 const stationSlice = createSlice({
   name: "stations",
   initialState,
@@ -61,10 +51,6 @@ const stationSlice = createSlice({
     });
   },
 });
-
-// export const { getData } = singleStation.actions;
-
-// export  singleStation.reducer;
 
 export default stationSlice.reducer;
 export const { selectStation } = stationSlice.actions;

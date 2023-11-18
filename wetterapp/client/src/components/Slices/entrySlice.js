@@ -12,7 +12,6 @@ export const fetchEntries = createAsyncThunk(
   (passedObject) => {
     const stationIds = passedObject[0];
     const dateArray = passedObject[1];
-    console.log("Date", dateArray);
     var data = [];
     return axios
       .post("http://localhost:5000/entry/allByIdAndDate", {
@@ -20,7 +19,6 @@ export const fetchEntries = createAsyncThunk(
         date: dateArray,
       })
       .then((response) => {
-        console.log("Data", response.data);
         return response.data;
       });
   }
@@ -30,14 +28,12 @@ export const fetchSingleEntry = createAsyncThunk(
   "/entry/lastEntryAndById",
   (stationId) => {
     const stationIds = stationId;
-    console.log(stationIds);
     var data = [];
     return axios
       .post("http://localhost:5000/entry/lastEntryAndById", {
         stationId: stationIds,
       })
       .then((response) => {
-        console.log("Data:", response.data);
         return response.data;
       });
   }
