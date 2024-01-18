@@ -106,7 +106,7 @@ const lastEntryAndById = async (req, res) => {
           console.log("error");
           res.send({ msg: "no Config Item found(undefined)" });
         } else if (docs.length) {
-          console.log("Sucess!!!!");
+          console.log("Sucess!!");
           res.status(201).send(docs);
         } else {
           console.log("no Config Item found!!");

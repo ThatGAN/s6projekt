@@ -12,7 +12,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { registerLicense } from "@syncfusion/ej2-base";
-import Auth from "./components/AUTH/auth.js";
+import Auth from "./components/Auth/auth.js";
 import store from "./store/store";
 import { MapComponent } from "./components/Maps/mapComponent";
 

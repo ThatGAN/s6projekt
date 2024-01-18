@@ -21,7 +21,7 @@ import StopIcon from "@material-ui/icons/Stop";
 const icons = {
   BaseLayers: <TerrainIcon />,
   Rectangles: <StopIcon />,
-  Circles: <RecordIcon />
+  Circles: <RecordIcon />,
 };
 
 export class ControlledLayer extends Component {
@@ -41,7 +41,11 @@ export class ControlledLayer extends Component {
   }
 
   componentWillUnmount() {
-    this.props.removeLayerControl(this.layer);
+    try {
+      this.props.removeLayerControl(this.layer);
+    } catch (error) {
+      console.log("Error:", error);
+    }
   }
 
   addLayer() {
@@ -67,12 +71,12 @@ export class ControlledLayerItem extends ControlledLayer {
       ...props.leaflet,
       layerContainer: {
         addLayer: this.addLayer.bind(this),
-        removeLayer: this.removeLayer.bind(this)
-      }
+        removeLayer: this.removeLayer.bind(this),
+      },
     };
   }
 
-  addLayer = layer => {
+  addLayer = (layer) => {
     this.layer = layer; // Keep layer reference to handle dynamic changes of props
     const { addGroupedLayer, checked, name, group } = this.props;
     addGroupedLayer(layer, name, checked, group);
@@ -85,14 +89,14 @@ class LayerControl extends MapControl {
     this.controlProps = {
       addGroupedLayer: this.addGroupedLayer.bind(this),
       removeLayer: this.removeLayer.bind(this),
-      leaflet: props.leaflet
+      leaflet: props.leaflet,
     };
     this._layers = {};
 
     this.state = {
       menuOpen: false,
       layers: {},
-      menus: []
+      menus: [],
     };
   }
 
@@ -114,13 +118,13 @@ class LayerControl extends MapControl {
 
       currentGroup = currentGroup
         ? [
-            ...currentGroup.filter(x => x.name !== name),
-            { layer, name, checked, group }
+            ...currentGroup.filter((x) => x.name !== name),
+            { layer, name, checked, group },
           ]
         : [{ layer, name, checked, group }];
       currentLayers[group] = currentGroup;
       return {
-        layers: currentLayers
+        layers: currentLayers,
       };
     });
 
@@ -130,8 +134,8 @@ class LayerControl extends MapControl {
 
     currentGroup = currentGroup
       ? [
-          ...currentGroup.filter(x => x.name !== name),
-          { layer, name, checked, group }
+          ...currentGroup.filter((x) => x.name !== name),
+          { layer, name, checked, group },
         ]
       : [{ layer, name, checked, group }];
 
@@ -154,13 +158,13 @@ class LayerControl extends MapControl {
       // https://leafletjs.com/reference-1.5.0.html#control
 
       // Should return the container DOM element for the control and add listeners on relevant map events
-      onAdd: map => {
+      onAdd: (map) => {
         this.container = DomUtil.create("div");
         this.map = map;
         return this.container;
       },
       // this one is optional
-      onRemove: map => {}
+      onRemove: (map) => {},
     });
 
     // return new instance of our control and pass it all the props
@@ -179,39 +183,39 @@ class LayerControl extends MapControl {
     // render react component
   }
 
-  toggleLayer = layerInput => {
+  toggleLayer = (layerInput) => {
     const { layer, name, checked, group } = layerInput;
-   
-    let layers = { ...this.state.layers };
-    layers[group] = layers[group].map(l => {
-     if (l.name === name) {
-       l.checked = !l.checked;
-   
-       l.checked
-           ? this.props.leaflet.map.addLayer(layer)
-           : this.removeLayer(layer);
-     }
-     return l;
-    });
-   
-    this.setState({
-     layers
-    });
-   };
 
-  onCollapseClick = name => {
+    let layers = { ...this.state.layers };
+    layers[group] = layers[group].map((l) => {
+      if (l.name === name) {
+        l.checked = !l.checked;
+
+        l.checked
+          ? this.props.leaflet.map.addLayer(layer)
+          : this.removeLayer(layer);
+      }
+      return l;
+    });
+
+    this.setState({
+      layers,
+    });
+  };
+
+  onCollapseClick = (name) => {
     const { menus } = this.state;
 
     menus.includes(name)
       ? this.setState({
-          menus: [...this.state.menus.filter(x => x !== name)]
+          menus: [...this.state.menus.filter((x) => x !== name)],
         })
       : this.setState({
-          menus: [...menus, name]
+          menus: [...menus, name],
         });
   };
 
-  isMenuOpen = name => {
+  isMenuOpen = (name) => {
     let open = this.state.menus.includes(name);
     return open;
   };
@@ -231,7 +235,7 @@ class LayerControl extends MapControl {
           >
             {this.state.menuOpen && (
               <div style={{ padding: 10 }}>
-                {Object.keys(this.state.layers).map(g => {
+                {Object.keys(this.state.layers).map((g) => {
                   return (
                     <React.Fragment key={g}>
                       <ListItem
@@ -250,7 +254,7 @@ class LayerControl extends MapControl {
                         unmountOnExit
                       >
                         <List>
-                          {this.state.layers[g].map(l => {
+                          {this.state.layers[g].map((l) => {
                             return (
                               <ListItem key={l.name}>
                                 <ListItemIcon>
@@ -279,7 +283,7 @@ class LayerControl extends MapControl {
           </Paper>,
           this.leafletElement.getContainer()
         )}
-        {Children.map(this.props.children, child => {
+        {Children.map(this.props.children, (child) => {
           return child ? cloneElement(child, this.controlProps) : null;
         })}
       </React.Fragment>

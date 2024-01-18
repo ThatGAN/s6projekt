@@ -18,18 +18,24 @@ export const MapComponent = () => {
       }
       switch (selectedStation.name) {
         case "UNO R-3":
-          setPropToPass([res.payload, [{ lat: 51.93, lon: 7.6 }]]);
+          setPropToPass([
+            res.payload,
+            [{ lat: 51.9390063, lon: 7.6097795 }],
+            selectedStation.name,
+          ]);
           break;
         case "MKR NB 1500":
-          setPropToPass([res.payload, [{ lat: 52.23, lon: 7.75 }]]);
+          setPropToPass([
+            res.payload,
+            [{ lat: 52.230529620106836, lon: 7.753416270493587 }],
+            selectedStation.name,
+          ]);
           break;
         default:
           console.log("Error");
       }
     });
   }, [selectedStation._id]);
-
-  useEffect(() => {}, [selectedStation.name, dataToPass]);
 
   console.log("Here:", propToPass);
 
