@@ -44,8 +44,8 @@ void setupSensors() {
 
   if (!ENV.begin()) {
     Serial.println("Failed to initialize MKR ENV shield!");
-    while (1)
-      ;
+    myReset();
+    
   }
 }
 
@@ -182,12 +182,12 @@ void loop() {
 
 void myReset() {
   Serial.println("Resetting");
-  LowPower.sleep(120000);
+  LowPower.sleep(600000);
   NVIC_SystemReset();
 }
 
 void longReset(){
-  Serial.println("Resetting");
+  Serial.println("Resetting(long)");
   LowPower.sleep(2700000);
   NVIC_SystemReset();
 }
